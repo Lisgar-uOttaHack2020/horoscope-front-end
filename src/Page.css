@@ -1,4 +1,12 @@
 
+p {
+
+  font-size: 17px;
+  max-width: 720px;
+  display: block;
+  margin: 1em auto;
+}
+
 #central-logo {
 
   height: 30vh;

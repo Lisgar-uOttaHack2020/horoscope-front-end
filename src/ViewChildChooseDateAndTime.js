@@ -10,9 +10,12 @@ const fetch = require('node-fetch');
 class ViewChildChooseDateAndTime extends React.Component {
 
   customerId = null;
+  childList = null;
+  childIndex = null;
   teacherData = null;
 
   state = {
+    childName: null,
     selectConsultantList: []
   };
 
@@ -80,9 +83,33 @@ class ViewChildChooseDateAndTime extends React.Component {
     delete this.data[index];
   }
 
+  sendData = () => {
+
+    // Create booking
+
+    if (this.childIndex >= this.childList.length - 1) {
+
+      this.props.changeViewFunc('endPage', null);
+    }
+    else {
+
+      this.childIndex++;
+      this.setState({
+        childName: this.childList[this.childIndex],
+        selectConsultantList: []
+      });
+    }
+  }
+
   componentDidMount() {
 
-    this.customerId = this.props.params['id'];
+    this.customerId = this.props.params[0];
+    this.childList = this.props.params[1];
+    this.childIndex = this.props.params[2];
+
+    this.setState({
+      childName: this.childList[this.childIndex]
+    });
  
     fetch('/consultants', {
       method: 'get'
@@ -100,7 +127,7 @@ class ViewChildChooseDateAndTime extends React.Component {
     return (
       <div className='view-container'>
         <Segment.Group>
-          <Segment><Header as='h1'>Appointment Booking</Header></Segment>
+          <Segment><Header as='h1'>Appointment Booking for {this.state.childName}</Header></Segment>
           <Segment>
             <Form>
               <Form.Field>
@@ -117,6 +144,12 @@ class ViewChildChooseDateAndTime extends React.Component {
                 </Button>
               </Form.Field>
             </Form>
+          </Segment>
+          <Segment>
+            <Button icon labelPosition='right' fluid onClick={this.sendData} primary>
+              <Icon name='arrow right' />
+              Next
+            </Button>
           </Segment>
         </Segment.Group>
       </div>

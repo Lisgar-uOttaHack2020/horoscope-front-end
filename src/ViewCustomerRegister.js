@@ -94,7 +94,9 @@ class ViewCustomerRegister extends React.Component {
     })
     .then(res => res.json())
     .then(json => {
-      this.props.changeViewFunc('childChooseDateAndTime', json);
+      this.props.changeViewFunc('childChooseDateAndTime', [
+        json.id, this.data.children, 0
+      ]);
     });
     
   }

@@ -3,6 +3,7 @@ import React from 'react';
 import ViewCustomerRegister from './ViewCustomerRegister';
 import ViewChildChooseDateAndTime from './ViewChildChooseDateAndTime';
 import LandingPage from './LandingPage';
+import EndPage from './EndPage';
 
 import './App.css';
 
@@ -33,6 +34,10 @@ class App extends React.Component {
 
     else if (this.state.view === 'childChooseDateAndTime') {
       return <ViewChildChooseDateAndTime changeViewFunc={this.changeView} params={this.state.paramsToPass} />;
+    }
+
+    else if (this.state.view === 'endPage') {
+      return <EndPage changeViewFunc={this.changeView} params={this.state.paramsToPass} />;
     }
 
     return <div>:(</div>

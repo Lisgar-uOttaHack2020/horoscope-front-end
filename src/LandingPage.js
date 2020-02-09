@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Header, Button } from 'semantic-ui-react';
 
-import './LandingPage.css';
+import './Page.css';
 
 import docBook from './docBook.svg';
 
