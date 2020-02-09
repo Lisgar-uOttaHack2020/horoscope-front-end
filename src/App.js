@@ -2,13 +2,14 @@ import React from 'react';
 
 import ViewCustomerRegister from './ViewCustomerRegister';
 import ViewChildChooseDateAndTime from './ViewChildChooseDateAndTime';
+import LandingPage from './LandingPage';
 
 import './App.css';
 
 class App extends React.Component {
 
   state = {
-    view: 'customerRegister',
+    view: 'landingPage',
     paramsToPass: null
   };
 
@@ -22,7 +23,11 @@ class App extends React.Component {
 
   render() {
 
-    if (this.state.view === 'customerRegister') {
+    if (this.state.view === 'landingPage') {
+      return <LandingPage changeViewFunc={this.changeView} params={this.state.paramsToPass} />;
+    }
+
+    else if (this.state.view === 'customerRegister') {
       return <ViewCustomerRegister changeViewFunc={this.changeView} params={this.state.paramsToPass} />;
     }
 

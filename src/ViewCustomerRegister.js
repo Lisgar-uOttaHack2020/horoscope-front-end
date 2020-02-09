@@ -134,7 +134,7 @@ class ViewCustomerRegister extends React.Component {
             </Form>
           </Segment>
           <Segment>
-            <Button icon labelPosition='right' fluid onClick={this.sendData}>
+            <Button icon labelPosition='right' fluid onClick={this.sendData} primary>
               <Icon name='arrow right' />
               Next
             </Button>
@@ -147,11 +147,6 @@ class ViewCustomerRegister extends React.Component {
 }
 
 class ViewChild extends React.Component {
-
-  constructor(props) {
-
-    super(props);
-  }
 
   onUpdate = (e, {name, value}) => {
 
