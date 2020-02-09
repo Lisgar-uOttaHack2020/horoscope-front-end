@@ -21,16 +21,19 @@ class ViewChildChooseDateAndTime extends React.Component {
 
   data = {};
 
-  selectConsultantSelectDate = (index, val) => {
-
-    this.data[index].date = val;
-    console.log(this.data);
-  }
-
   selectConsultantSelectTime = (index, val) => {
 
     this.data[index].time = val;
-    console.log(this.data);
+  }
+
+  selectConsultantSelectDate = (index, val) => {
+
+    this.data[index].date = val;
+  }
+
+  selectConsultantSelectTeacher = (index, val) => {
+
+    this.data[index].consultantId = val;
   }
 
   addSelectConsultant = () => {
@@ -47,6 +50,7 @@ class ViewChildChooseDateAndTime extends React.Component {
         deleteFunc={this.deleteSelectConsultant}
         selectDateFunc={this.selectConsultantSelectDate}
         selectTimeFunc={this.selectConsultantSelectTime}
+        selectTeacherFunc={this.selectConsultantSelectTeacher}
       />
     );
 
@@ -55,9 +59,9 @@ class ViewChildChooseDateAndTime extends React.Component {
     });
 
     this.data[index] = {
-      "customer-id": this.customerId,
-      "consultant-id": null,
-      "child-name": null,
+      "customerId": this.customerId,
+      "consultantId": null,
+      "child": this.state.childName,
       "date": null,
       "time": {
         "start": null,
@@ -84,6 +88,8 @@ class ViewChildChooseDateAndTime extends React.Component {
   }
 
   sendData = () => {
+
+    console.log(this.data);
 
     // Create booking
 
@@ -127,7 +133,7 @@ class ViewChildChooseDateAndTime extends React.Component {
     return (
       <div className='view-container'>
         <Segment.Group>
-          <Segment><Header as='h1'>Appointment Booking for {this.state.childName}</Header></Segment>
+          <Segment><Header as='h2'>Appointment Booking for {this.state.childName}</Header></Segment>
           <Segment>
             <Form>
               <Form.Field>
@@ -253,6 +259,10 @@ class ViewSelectConsultant extends React.Component {
     this.timeDropdownRef.current.setState({
       value: null
     });
+
+    this.props.selectTeacherFunc(this.props.index, value);
+    this.props.selectDateFunc(this.props.index, null);
+    this.props.selectTimeFunc(this.props.index, null);
   }
 
   onDateChange = (e, { value }) => {
@@ -267,6 +277,7 @@ class ViewSelectConsultant extends React.Component {
     });
 
     this.props.selectDateFunc(this.props.index, value);
+    this.props.selectTimeFunc(this.props.index, null);
   }
 
   onTimeChange = (e, { value }) => {

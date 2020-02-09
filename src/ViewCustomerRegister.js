@@ -86,17 +86,31 @@ class ViewCustomerRegister extends React.Component {
       'email': this.data.email,
       'children': this.data.children
     };
+    let invalidRequest = false;
  
     fetch('/customers', {
       method: 'post',
       body:    JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
     })
-    .then(res => res.json())
+    .then(res => {
+
+      if (res.status !== 200) {
+        invalidRequest = true;
+      }
+
+      return res.json();
+    })
     .then(json => {
-      this.props.changeViewFunc('childChooseDateAndTime', [
-        json.id, this.data.children, 0
-      ]);
+
+      if (!invalidRequest) {
+        this.props.changeViewFunc('childChooseDateAndTime', [
+          json.id, this.data.children, 0
+        ]);
+      }
+      else {
+        this.props.displayModalMessageFunc(json.error);
+      }
     });
     
   }
@@ -106,7 +120,7 @@ class ViewCustomerRegister extends React.Component {
     return (
       <div className='view-container'>
         <Segment.Group>
-          <Segment><Header as='h1'>Customer Registration</Header></Segment>
+          <Segment><Header as='h2'>Customer Registration</Header></Segment>
           <Segment>
             <Form>
               <Form.Field>
