@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import { Segment, Header, Form, Icon, Button, Dropdown } from 'semantic-ui-react';
+import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semantic-ui-react';
 
 import './ViewChildChooseDateAndTime.css';
 
@@ -354,6 +354,7 @@ class ViewSelectConsultant extends React.Component {
           options={this.getTimeOptions(this.state.selectedTeacher, this.state.selectedDate)}
           disabled={!this.state.selectedDate}
         />
+        <TextArea placeholder='Comments' fluid style={{marginBottom: 8}} />
         <Button icon fluid labelPosition='left' onClick={() => this.props.deleteFunc(this.props.index)}>
           <Icon name='minus' />
           Remove Appointment

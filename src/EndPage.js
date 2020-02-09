@@ -17,7 +17,7 @@ class EndPage extends React.Component {
         </p>
         <p className='center-block'>
           Thank you for using DocBooks! If you enjoyed your experience using our product, please consider
-          <a href="#">giving us a 5 star rating</a> or <a href="#">buying us a coffee.</a>
+          <a href="#5-star">giving us a 5 star rating</a> or <a href="#coffee">buying us a coffee.</a>
         </p>
       </div>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Modal, Button, Header, Message } from 'semantic-ui-react';
+import { Modal, Button, Message } from 'semantic-ui-react';
 
 import ViewCustomerRegister from './ViewCustomerRegister';
 import ViewChildChooseDateAndTime from './ViewChildChooseDateAndTime';
