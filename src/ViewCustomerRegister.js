@@ -8,24 +8,16 @@ import './ViewCustomerRegister.css';
 const fetch = require('node-fetch');
 
 class ViewCustomerRegister extends React.Component {
-  
-  constructor(props) {
 
-    super(props);
-
-    this.currentChildIndex = 0;  // Unique ID to track each individual child view.
-
-    this.state = {
-      childList: []  // A list of all of the child view objects.
-    };
-  }
+  state = {
+    childList: []  // A list of all of the child view objects.
+  };
 
   // Tracks data to be sent for the register request.
   data = {
     'name': null,
     'email': null,
-    'tempChildren': {},
-    'children': []
+    'tempChildren': {},'children': []
   };
 
   generateDataChildren = () => {
@@ -50,8 +42,8 @@ class ViewCustomerRegister extends React.Component {
     let tempChildList = this.state.childList.slice();
     tempChildList.push(
       <ViewChild
-        key={this.currentChildIndex}
-        index={this.currentChildIndex}
+        key={Date.now()}
+        index={Date.now()}
         deleteFunc={this.deleteChild}
         updateValueFunc={this.updateChildValue}
       />
@@ -60,7 +52,6 @@ class ViewCustomerRegister extends React.Component {
     this.setState({
       childList: tempChildList
     });
-    this.currentChildIndex++;  // Increment no matter what to avoid reusing keys.
   }
 
   deleteChild = (index) => {
@@ -88,11 +79,6 @@ class ViewCustomerRegister extends React.Component {
     this.generateDataChildren();
   }
 
-  printData = () => {
-
-    document.querySelector('#res-dump').innerHTML = JSON.stringify(this.data);
-  }
-
   sendData = () => {
 
     const body = {
@@ -107,14 +93,16 @@ class ViewCustomerRegister extends React.Component {
       headers: { 'Content-Type': 'application/json' },
     })
     .then(res => res.json())
-    .then(json => console.log(json));
+    .then(json => {
+      this.props.changeViewFunc('childChooseDateAndTime', json);
+    });
     
   }
 
   render() {
 
     return (
-      <div id='customer-register-container'>
+      <div className='view-container'>
         <Segment.Group>
           <Segment><Header as='h1'>Customer Registration</Header></Segment>
           <Segment>
@@ -136,6 +124,8 @@ class ViewCustomerRegister extends React.Component {
                     })
                   }
                 </div>
+              </Form.Field>
+              <Form.Field>
                 <Button icon labelPosition='left' fluid onClick={this.addChild}>
                   <Icon name='plus' />
                   Add Patient

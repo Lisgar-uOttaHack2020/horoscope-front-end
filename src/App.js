@@ -1,20 +1,36 @@
 import React from 'react';
 
 import ViewCustomerRegister from './ViewCustomerRegister';
-//import ViewChildChooseDataAndTime from './ViewChildChooseDateAndTime';
+import ViewChildChooseDateAndTime from './ViewChildChooseDateAndTime';
 
 import './App.css';
 
 class App extends React.Component {
 
+  state = {
+    view: 'customerRegister',
+    paramsToPass: null
+  };
+
+  changeView = (newView, newParams) => {
+
+    this.setState({
+      view: newView,
+      paramsToPass: newParams
+    });
+  }
+
   render() {
 
-    return (
-      <div>
-        <ViewCustomerRegister />
-        {/*<ViewChildChooseDataAndTime />*/}
-      </div>
-    );
+    if (this.state.view === 'customerRegister') {
+      return <ViewCustomerRegister changeViewFunc={this.changeView} params={this.state.paramsToPass} />;
+    }
+
+    else if (this.state.view === 'childChooseDateAndTime') {
+      return <ViewChildChooseDateAndTime changeViewFunc={this.changeView} params={this.state.paramsToPass} />;
+    }
+
+    return <div>:(</div>
   }
 }
 

@@ -1,22 +1,12 @@
 
-#customer-register-container {
+#customer-register-child-list > * {
 
-  display: block;
-  margin: 0 auto;
-  width: 50vw;
-  min-width: 600px;
-}
-
-#customer-register-child-list {
-
-  max-height: 128px;
-  overflow-y: auto;
   margin-bottom: 8px;
 }
 
-#customer-register-child-list > *:not(:last-child) {
+.customer-register-child-list-element > *:nth-child(2) {
 
-  margin-bottom: 8px;
+  margin-left: 8px;
 }
 
 .customer-register-child-list-element > *:last-child {
