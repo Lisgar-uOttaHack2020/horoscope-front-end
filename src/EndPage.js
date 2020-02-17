@@ -16,8 +16,7 @@ class EndPage extends React.Component {
           An email has been sent to confirm your bookings.
         </p>
         <p className='center-block'>
-          Thank you for using DocBooks! If you enjoyed your experience using our product, please consider
-          <a href="#5-star">giving us a 5 star rating</a> or <a href="#coffee">buying us a coffee.</a>
+          THANK YOU NOTE
         </p>
       </div>
     );

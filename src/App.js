@@ -78,7 +78,7 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div className='app-container'>
         <Modal open={this.state.modalOpen}>
           <Message negative>
             <Message.Header>Error!</Message.Header>

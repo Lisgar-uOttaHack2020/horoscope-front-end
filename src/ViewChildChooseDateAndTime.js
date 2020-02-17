@@ -89,8 +89,6 @@ class ViewChildChooseDateAndTime extends React.Component {
 
   sendData = () => {
 
-    console.log(this.data);
-
     // Create booking
 
     if (this.childIndex >= this.childList.length - 1) {
@@ -133,7 +131,7 @@ class ViewChildChooseDateAndTime extends React.Component {
     return (
       <div className='view-container'>
         <Segment.Group>
-          <Segment><Header as='h2'>Appointment Booking for {this.state.childName}</Header></Segment>
+          <Segment><Header as='h2'>Appointment booking: {this.state.childName}</Header></Segment>
           <Segment>
             <Form>
               <Form.Field>
@@ -146,7 +144,7 @@ class ViewChildChooseDateAndTime extends React.Component {
               <Form.Field>
                 <Button icon labelPosition='left' fluid onClick={() => this.addSelectConsultant()}>
                   <Icon name='plus' />
-                  Add Appointment
+                  Add appointment
                 </Button>
               </Form.Field>
             </Form>
@@ -329,7 +327,7 @@ class ViewSelectConsultant extends React.Component {
       <Form.Field className='select-consultant-container'>
         <label>Appointment</label>
         <Dropdown
-          placeholder='Select a doctor'
+          placeholder='Select a teacher'
           fluid
           search
           onChange={this.onTeacherChange}
@@ -338,7 +336,7 @@ class ViewSelectConsultant extends React.Component {
         />
         <Dropdown
           ref={this.dateDropdownRef}
-          placeholder='Select Date'
+          placeholder='Select date'
           fluid
           onChange={this.onDateChange}
           selection
@@ -347,7 +345,7 @@ class ViewSelectConsultant extends React.Component {
         />
         <Dropdown
           ref={this.timeDropdownRef}
-          placeholder='Select Time'
+          placeholder='Select time'
           fluid
           onChange={this.onTimeChange}
           selection
@@ -357,7 +355,7 @@ class ViewSelectConsultant extends React.Component {
         <TextArea placeholder='Comments' fluid style={{marginBottom: 8}} />
         <Button icon fluid labelPosition='left' onClick={() => this.props.deleteFunc(this.props.index)}>
           <Icon name='minus' />
-          Remove Appointment
+          Remove appointment
         </Button>
       </Form.Field>
     );

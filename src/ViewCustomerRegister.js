@@ -120,19 +120,19 @@ class ViewCustomerRegister extends React.Component {
     return (
       <div className='view-container'>
         <Segment.Group>
-          <Segment><Header as='h2'>Customer Registration</Header></Segment>
+          <Segment><Header as='h2'>Registration</Header></Segment>
           <Segment>
             <Form>
               <Form.Field>
-                <label>Full Name</label>
-                <Input placeholder='Full Name' name='name' onChange={this.onFormChange} />
+                <label>Full name</label>
+                <Input placeholder='Full name' name='name' onChange={this.onFormChange} />
               </Form.Field>
               <Form.Field>
                 <label>Email</label>
                 <Input placeholder='Email' name='email' onChange={this.onFormChange} />
               </Form.Field>
               <Form.Field>
-                <label>Patients </label>
+                <label>Children </label>
                 <div id='customer-register-child-list'>
                   {
                     this.state.childList.map((child) => {
@@ -144,7 +144,7 @@ class ViewCustomerRegister extends React.Component {
               <Form.Field>
                 <Button icon labelPosition='left' fluid onClick={this.addChild}>
                   <Icon name='plus' />
-                  Add Patient
+                  Add child
                 </Button>
               </Form.Field>
             </Form>
@@ -173,7 +173,7 @@ class ViewChild extends React.Component {
 
     return (
       <div className='customer-register-child-list-element' style={{display: 'flex'}}>
-        <Input placeholder="Patient's full name" onChange={this.onUpdate} />
+        <Input placeholder="Child's full name" onChange={this.onUpdate} />
 
         <Button icon onClick={() => this.props.deleteFunc(this.props.index)}>
           <Icon name='minus' />
