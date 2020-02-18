@@ -3,11 +3,11 @@ import React from 'react';
 
 import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semantic-ui-react';
 
-import './ViewChildChooseDateAndTime.css';
+import './ParentBooking.css';
 
 const fetch = require('node-fetch');
 
-class ViewChildChooseDateAndTime extends React.Component {
+class ParentBooking extends React.Component {
 
   customerId = null;
   childList = null;
@@ -16,51 +16,51 @@ class ViewChildChooseDateAndTime extends React.Component {
 
   state = {
     childName: null,
-    selectConsultantList: []
+    selectTeacherList: []
   };
 
   data = {};
 
-  selectConsultantSelectTime = (index, val) => {
+  selectTeacherSelectTime = (index, val) => {
 
     this.data[index].time = val;
   }
 
-  selectConsultantSelectDate = (index, val) => {
+  selectTeacherSelectDate = (index, val) => {
 
     this.data[index].date = val;
   }
 
-  selectConsultantSelectTeacher = (index, val) => {
+  selectTeacherSelectTeacher = (index, val) => {
 
-    this.data[index].consultantId = val;
+    this.data[index].teacherId = val;
   }
 
-  addSelectConsultant = () => {
+  addSelectTeacher = () => {
 
     let index = Date.now();
 
-    let tempSelectConsultantList = this.state.selectConsultantList.slice();
+    let tempSelectTeacherList = this.state.selectTeacherList.slice();
 
-    tempSelectConsultantList.push(
+    tempSelectTeacherList.push(
       <ViewSelectConsultant
         key={index}
         index={index}
         teacherData={this.teacherData}
-        deleteFunc={this.deleteSelectConsultant}
-        selectDateFunc={this.selectConsultantSelectDate}
-        selectTimeFunc={this.selectConsultantSelectTime}
-        selectTeacherFunc={this.selectConsultantSelectTeacher}
+        deleteFunc={this.deleteSelectTeacher}
+        selectDateFunc={this.selectTeacherSelectDate}
+        selectTimeFunc={this.selectTeacherSelectTime}
+        selectTeacherFunc={this.selectTeacherSelectTeacher}
       />
     );
 
     this.setState({
-      selectConsultantList: tempSelectConsultantList
+      selectTeacherList: tempSelectTeacherList
     });
 
     this.data[index] = {
       "customerId": this.customerId,
-      "consultantId": null,
+      "teacherId": null,
       "child": this.state.childName,
       "date": null,
       "time": {
@@ -70,18 +70,18 @@ class ViewChildChooseDateAndTime extends React.Component {
     }
   }
 
-  deleteSelectConsultant = (index) => {
+  deleteSelectTeacher = (index) => {
     
-    let tempSelectConsultantList = this.state.selectConsultantList.slice();
+    let tempSelectTeacherList = this.state.selectTeacherList.slice();
 
-    tempSelectConsultantList.forEach((selectConsultant, i) => {
-      if (selectConsultant.props.index === index) {
-        tempSelectConsultantList.splice(i, 1);
+    tempSelectTeacherList.forEach((selectTeacher, i) => {
+      if (selectTeacher.props.index === index) {
+        tempSelectTeacherList.splice(i, 1);
       }
     });
 
     this.setState({
-      selectConsultantList: tempSelectConsultantList
+      selectTeacherList: tempSelectTeacherList
     });
 
     delete this.data[index];
@@ -100,7 +100,7 @@ class ViewChildChooseDateAndTime extends React.Component {
       this.childIndex++;
       this.setState({
         childName: this.childList[this.childIndex],
-        selectConsultantList: []
+        selectTeacherList: []
       });
     }
   }
@@ -136,13 +136,13 @@ class ViewChildChooseDateAndTime extends React.Component {
             <Form>
               <Form.Field>
                 {
-                  this.state.selectConsultantList.map((selectConsultant) => {
-                    return selectConsultant;
+                  this.state.selectTeacherList.map((selectTeacher) => {
+                    return selectTeacher;
                   })
                 }
               </Form.Field>
               <Form.Field>
-                <Button icon labelPosition='left' fluid onClick={() => this.addSelectConsultant()}>
+                <Button icon labelPosition='left' fluid onClick={() => this.addSelectTeacher()}>
                   <Icon name='plus' />
                   Add appointment
                 </Button>
@@ -324,7 +324,7 @@ class ViewSelectConsultant extends React.Component {
   render() {
 
     return (
-      <Form.Field className='select-consultant-container'>
+      <Form.Field className='select-teacher-container'>
         <label>Appointment</label>
         <Dropdown
           placeholder='Select a teacher'
@@ -362,4 +362,4 @@ class ViewSelectConsultant extends React.Component {
   }
 }
 
-export default ViewChildChooseDateAndTime;
+export default ParentBooking;

@@ -3,11 +3,11 @@ import React from 'react';
 
 import { Segment, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
 
-import './ViewCustomerRegister.css';
+import './ParentRegister.css';
 
 const fetch = require('node-fetch');
 
-class ViewCustomerRegister extends React.Component {
+class ParentRegister extends React.Component {
 
   state = {
     childList: []  // A list of all of the child view objects.
@@ -183,4 +183,4 @@ class ViewChild extends React.Component {
   }
 }
 
-export default ViewCustomerRegister;
+export default ParentRegister;
