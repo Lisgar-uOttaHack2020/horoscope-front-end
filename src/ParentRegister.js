@@ -20,17 +20,6 @@ class ParentRegister extends React.Component {
     'tempChildren': {},'children': []
   };
 
-  generateDataChildren = () => {
-
-    // create data.children from data.tempChildren (object to array)
-    this.data.children = [];
-    for (let key in this.data.tempChildren) {
-      if (this.data.tempChildren.hasOwnProperty(key)) {
-        this.data.children.push(this.data.tempChildren[key]);
-      }
-    }
-  }
-
   // Runs when the name or email is changed. Does NOT run when the child views are changed.
   onFormChange = (e, {name, value}) => {
 
@@ -39,47 +28,51 @@ class ParentRegister extends React.Component {
 
   addChild = () => {
 
-    let tempChildList = this.state.childList.slice();
-    tempChildList.push(
-      <ChildSelection
-        key={Date.now()}
-        index={Date.now()}
+    let tempList = this.state.childList.slice();
+    tempList.push(
+      <ChildSelection key={Date.now()} index={Date.now()}
         deleteFunc={this.deleteChild}
-        updateValueFunc={this.updateChildValue}
+        updateFunc={this.updateChild}
       />
     );
 
     this.setState({
-      childList: tempChildList
+      childList: tempList
     });
   }
 
   deleteChild = (index) => {
 
-    let tempChildList = this.state.childList.slice();
+    let tempList = this.state.childList.slice();
 
-    tempChildList.forEach((child, i) => {
+    tempList.forEach((child, i) => {
       if (child.props.index === index) {
-        tempChildList.splice(i, 1);
+        tempList.splice(i, 1);
       }
     });
 
     this.setState({
-      childList: tempChildList
+      childList: tempList
     });
 
-    delete this.data.tempChildren['id_' + index];  // Data must be deleted.
-    this.generateDataChildren();
+    delete this.data.tempChildren[index];  // Data must be deleted.
   }
 
   // Runs when the [index] child value changes.
-  updateChildValue = (index, newVal) => {
+  updateChild = (index, newVal) => {
 
-    this.data.tempChildren['id_' + index] = newVal;
-    this.generateDataChildren();
+    this.data.tempChildren[index] = newVal;
   }
 
   sendData = () => {
+
+    // generate data.children
+    this.data.children = [];
+    for (let key in this.data.tempChildren) {
+      if (this.data.tempChildren.hasOwnProperty(key)) {
+        this.data.children.push(this.data.tempChildren[key]);
+      }
+    }
 
     const body = {
       'name': this.data.name,
@@ -150,13 +143,12 @@ class ParentRegister extends React.Component {
             </Form>
           </Segment>
           <Segment>
-            <Button icon labelPosition='right' fluid onClick={this.sendData} primary>
+            <Button icon labelPosition='right' fluid primary onClick={this.sendData}>
               <Icon name='arrow right' />
               Next
             </Button>
           </Segment>
         </Segment.Group>
-        <div style={{backgroundColor: '#202020', color: '#ffffff', fontFamily: 'monospace'}} id="res-dump"></div>
       </div>
     );
   }
@@ -166,7 +158,7 @@ class ChildSelection extends React.Component {
 
   onUpdate = (e, {name, value}) => {
 
-    this.props.updateValueFunc(this.props.index, value);
+    this.props.updateFunc(this.props.index, value);
   }
 
   render() {
