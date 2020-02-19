@@ -5,6 +5,7 @@ import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semanti
 
 import './ParentBooking.css';
 
+const funcs = require('./funcs');
 const fetch = require('node-fetch');
 
 class ParentBooking extends React.Component {
@@ -21,80 +22,66 @@ class ParentBooking extends React.Component {
 
   data = {};
 
-  bookTeacherSelectTime = (index, val) => {
-
-    this.data[index].time = val;
-  }
-
-  bookTeacherSelectDate = (index, val) => {
-
-    this.data[index].date = val;
-  }
-
-  bookTeacherSelectTeacher = (index, val) => {
-
-    this.data[index]['teacher-id'] = val;
-  }
-
-  addBookTeacher = () => {
+  bookTeacher_add = () => {
 
     let index = Date.now();
+    let tempList = this.state.selectTeacherList.slice();
 
-    let tempSelectTeacherList = this.state.selectTeacherList.slice();
-
-    tempSelectTeacherList.push(
+    tempList.push(
       <BookTeacher
         key={index}
         index={index}
         teacherData={this.teacherData}
-        deleteFunc={this.deleteBookTeacher}
-        selectDateFunc={this.bookTeacherSelectDate}
-        selectTimeFunc={this.bookTeacherSelectTime}
-        selectTeacherFunc={this.bookTeacherSelectTeacher}
+        deleteFunc={this.bookTeacher_delete}
+        setAttributesFunc={this.bookTeacher_setAttributes}
       />
     );
 
     this.setState({
-      selectTeacherList: tempSelectTeacherList
+      selectTeacherList: tempList
     });
 
     this.data[index] = {
+      'child-name': this.state.childName,
       'parent-id': this.parentId,
       'teacher-id': null,
-      'child': this.state.childName,
       'date': null,
-      'time': {
-        'start': null,
-        'end': null
-      }
+      'time': { 'start': null, 'end': null },
+      'comments': ''
     }
   }
 
-  deleteBookTeacher = (index) => {
+  bookTeacher_delete = (index) => {
     
-    let tempSelectTeacherList = this.state.selectTeacherList.slice();
+    let tempList = this.state.selectTeacherList.slice();
 
-    tempSelectTeacherList.forEach((selectTeacher, i) => {
+    tempList.forEach((selectTeacher, i) => {
       if (selectTeacher.props.index === index) {
-        tempSelectTeacherList.splice(i, 1);
+        tempList.splice(i, 1);
       }
     });
 
     this.setState({
-      selectTeacherList: tempSelectTeacherList
+      selectTeacherList: tempList
     });
 
     delete this.data[index];
   }
 
-  sendData = () => {
+  bookTeacher_setAttributes = (index, attrs) => {
 
-    // Create booking
+    for (let key in attrs) {
+      if (attrs.hasOwnProperty(key)) {
+        this.data[index][key] = attrs[key];
+      }
+    }
+  }
+
+  sendData = () => {
 
     if (this.childIndex >= this.childList.length - 1) {
 
       console.log(this.data);
-
       this.props.changeViewFunc('endPage', null);
     }
     else {
@@ -144,7 +131,7 @@ class ParentBooking extends React.Component {
                 }
               </Form.Field>
               <Form.Field>
-                <Button icon labelPosition='left' fluid onClick={() => this.addBookTeacher()}>
+                <Button icon labelPosition='left' fluid onClick={() => this.bookTeacher_add()}>
                   <Icon name='plus' />
                   Add appointment
                 </Button>
@@ -176,34 +163,9 @@ class BookTeacher extends React.Component {
   state = {
     selectedTeacher: null,
     selectedDate: null,
-    selectedTime: null,
-
     teacherOptions: [],
     teacherList: {},
   };
-
-  numberToDisplayTime = (num) => {
-    
-    let hours = Math.floor(num / 60);
-    let mins = num % 60;
-    let PM = true;
-    
-    if (hours < 12) {
-      PM = false;
-    }
-    if (hours > 12) {
-      hours -= 12;
-    }
-    if (hours === 0) {
-      hours = 12;
-    }
-
-    if (mins < 10) {
-      mins = '0' + mins;
-    }
-
-    return hours + ':' + mins + (PM ? ' PM' : ' AM');
-  }
 
   getDateOptions = (teacherId) => {
 
@@ -234,7 +196,7 @@ class BookTeacher extends React.Component {
         for (let j = element; j + interval <= timeline[i + 1]; j += interval) {
 
           let startTime = j, endTime = j + interval;
-          let text = this.numberToDisplayTime(startTime) + ' to ' + this.numberToDisplayTime(endTime);
+          let text = funcs.numberToDisplayTime(startTime) + ' to ' + funcs.numberToDisplayTime(endTime);
           arr.push(
             { key: i + '_' + j, text: text, value: { start: startTime, end: endTime } }
           );
@@ -250,7 +212,6 @@ class BookTeacher extends React.Component {
     this.setState({
       selectedTeacher: value,
       selectedDate: null,
-      selectedTime: null
     });
 
     this.dateDropdownRef.current.setState({
@@ -260,33 +221,41 @@ class BookTeacher extends React.Component {
       value: null
     });
 
-    this.props.selectTeacherFunc(this.props.index, value);
-    this.props.selectDateFunc(this.props.index, null);
-    this.props.selectTimeFunc(this.props.index, null);
+    this.props.setAttributesFunc(this.props.index, {
+      'teacher-id': value,
+      'date': null,
+      'time': null
+    });
   }
 
   onDateChange = (e, { value }) => {
 
     this.setState({
       selectedDate: value,
-      selectedTime: null
     });
 
     this.timeDropdownRef.current.setState({
       value: null
     });
 
-    this.props.selectDateFunc(this.props.index, value);
-    this.props.selectTimeFunc(this.props.index, null);
+    this.props.setAttributesFunc(this.props.index, {
+      'date': value,
+      'time': null
+    });
   }
 
   onTimeChange = (e, { value }) => {
 
-    this.setState({
-      selectedTime: value
+    this.props.setAttributesFunc(this.props.index, {
+      'time': value
     });
+  }
 
-    this.props.selectTimeFunc(this.props.index, value);
+  onCommentChange = (e, { value }) => {
+
+    this.props.setAttributesFunc(this.props.index, {
+      'comments': value
+    });
   }
 
   componentDidMount() {
@@ -329,32 +298,28 @@ class BookTeacher extends React.Component {
       <Form.Field className='book-teacher-container'>
         <label>Appointment</label>
         <Dropdown
-          placeholder='Select a teacher'
-          fluid
-          search
+          placeholder='Select a teacher' fluid search selection
           onChange={this.onTeacherChange}
-          selection
           options={this.state.teacherOptions}
         />
         <Dropdown
+          placeholder='Select date' fluid selection
           ref={this.dateDropdownRef}
-          placeholder='Select date'
-          fluid
           onChange={this.onDateChange}
-          selection
           options={this.getDateOptions(this.state.selectedTeacher)}
           disabled={!this.state.selectedTeacher}
         />
-        <Dropdown
+        <Dropdown placeholder='Select time' fluid selection
           ref={this.timeDropdownRef}
-          placeholder='Select time'
-          fluid
           onChange={this.onTimeChange}
-          selection
           options={this.getTimeOptions(this.state.selectedTeacher, this.state.selectedDate)}
           disabled={!this.state.selectedDate}
         />
-        <TextArea placeholder='Comments' fluid style={{marginBottom: 8}} />
+        <TextArea
+          placeholder='Comments' fluid
+          style={{marginBottom: 8}}
+          onChange={this.onCommentChange}
+        />
         <Button icon fluid labelPosition='left' onClick={() => this.props.deleteFunc(this.props.index)}>
           <Icon name='minus' />
           Remove appointment
