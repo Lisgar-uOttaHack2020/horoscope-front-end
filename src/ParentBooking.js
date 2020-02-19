@@ -5,8 +5,8 @@ import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semanti
 
 import './ParentBooking.css';
 
-const funcs = require('./funcs');
-const fetch = require('node-fetch');
+const funcs = require('./utils/funcs');
+const request = require('./utils/request');
 
 class ParentBooking extends React.Component {
 
@@ -103,14 +103,15 @@ class ParentBooking extends React.Component {
     this.setState({
       childName: this.childList[this.childIndex]
     });
- 
-    fetch('/consultants', {
-      method: 'get'
-    })
-    .then(res => res.json())
-    .then(json => {
 
-      this.teacherData = json;
+    request.send('/consultants', {
+      method: 'get',
+    },
+    (json) => {
+      this.teacherData = json
+    },
+    (json) => {
+      this.props.displayModalMessageFunc(json.error);
     });
 
   }
