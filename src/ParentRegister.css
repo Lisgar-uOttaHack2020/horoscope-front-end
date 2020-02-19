@@ -1,15 +1,15 @@
 
-#customer-register-child-list > * {
+#child-selection-list > * {
 
   margin-bottom: 8px;
 }
 
-.customer-register-child-list-element > *:nth-child(2) {
+.child-selection > *:nth-child(2) {
 
   margin-left: 8px;
 }
 
-.customer-register-child-list-element > *:last-child {
+.child-selection > *:last-child {
 
   margin-left: 8px;
   margin-right: 16px;

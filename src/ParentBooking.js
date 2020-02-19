@@ -9,7 +9,7 @@ const fetch = require('node-fetch');
 
 class ParentBooking extends React.Component {
 
-  customerId = null;
+  parentId = null;
   childList = null;
   childIndex = null;
   teacherData = null;
@@ -21,36 +21,36 @@ class ParentBooking extends React.Component {
 
   data = {};
 
-  selectTeacherSelectTime = (index, val) => {
+  bookTeacherSelectTime = (index, val) => {
 
     this.data[index].time = val;
   }
 
-  selectTeacherSelectDate = (index, val) => {
+  bookTeacherSelectDate = (index, val) => {
 
     this.data[index].date = val;
   }
 
-  selectTeacherSelectTeacher = (index, val) => {
+  bookTeacherSelectTeacher = (index, val) => {
 
-    this.data[index].teacherId = val;
+    this.data[index]['teacher-id'] = val;
   }
 
-  addSelectTeacher = () => {
+  addBookTeacher = () => {
 
     let index = Date.now();
 
     let tempSelectTeacherList = this.state.selectTeacherList.slice();
 
     tempSelectTeacherList.push(
-      <ViewSelectConsultant
+      <BookTeacher
         key={index}
         index={index}
         teacherData={this.teacherData}
-        deleteFunc={this.deleteSelectTeacher}
-        selectDateFunc={this.selectTeacherSelectDate}
-        selectTimeFunc={this.selectTeacherSelectTime}
-        selectTeacherFunc={this.selectTeacherSelectTeacher}
+        deleteFunc={this.deleteBookTeacher}
+        selectDateFunc={this.bookTeacherSelectDate}
+        selectTimeFunc={this.bookTeacherSelectTime}
+        selectTeacherFunc={this.bookTeacherSelectTeacher}
       />
     );
 
@@ -59,18 +59,18 @@ class ParentBooking extends React.Component {
     });
 
     this.data[index] = {
-      "customerId": this.customerId,
-      "teacherId": null,
-      "child": this.state.childName,
-      "date": null,
-      "time": {
-        "start": null,
-        "end": null
+      'parent-id': this.parentId,
+      'teacher-id': null,
+      'child': this.state.childName,
+      'date': null,
+      'time': {
+        'start': null,
+        'end': null
       }
     }
   }
 
-  deleteSelectTeacher = (index) => {
+  deleteBookTeacher = (index) => {
     
     let tempSelectTeacherList = this.state.selectTeacherList.slice();
 
@@ -93,6 +93,8 @@ class ParentBooking extends React.Component {
 
     if (this.childIndex >= this.childList.length - 1) {
 
+      console.log(this.data);
+
       this.props.changeViewFunc('endPage', null);
     }
     else {
@@ -107,7 +109,7 @@ class ParentBooking extends React.Component {
 
   componentDidMount() {
 
-    this.customerId = this.props.params[0];
+    this.parentId = this.props.params[0];
     this.childList = this.props.params[1];
     this.childIndex = this.props.params[2];
 
@@ -142,7 +144,7 @@ class ParentBooking extends React.Component {
                 }
               </Form.Field>
               <Form.Field>
-                <Button icon labelPosition='left' fluid onClick={() => this.addSelectTeacher()}>
+                <Button icon labelPosition='left' fluid onClick={() => this.addBookTeacher()}>
                   <Icon name='plus' />
                   Add appointment
                 </Button>
@@ -161,7 +163,7 @@ class ParentBooking extends React.Component {
   }
 }
 
-class ViewSelectConsultant extends React.Component {
+class BookTeacher extends React.Component {
 
   constructor(props) {
 
@@ -324,7 +326,7 @@ class ViewSelectConsultant extends React.Component {
   render() {
 
     return (
-      <Form.Field className='select-teacher-container'>
+      <Form.Field className='book-teacher-container'>
         <label>Appointment</label>
         <Dropdown
           placeholder='Select a teacher'

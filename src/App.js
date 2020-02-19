@@ -53,7 +53,7 @@ class App extends React.Component {
       />;
     }
 
-    else if (this.state.view === 'customerRegister') {
+    else if (this.state.view === 'parentRegister') {
       viewWidget = <ParentRegister
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
@@ -61,7 +61,7 @@ class App extends React.Component {
       />;
     }
 
-    else if (this.state.view === 'childChooseDateAndTime') {
+    else if (this.state.view === 'parentBooking') {
       viewWidget = <ParentBooking
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
