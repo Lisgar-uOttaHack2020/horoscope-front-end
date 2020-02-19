@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semantic-ui-react';
 
-import './ParentBooking.css';
+import './css/ParentBooking.css';
 
 const funcs = require('./utils/funcs');
 const request = require('./utils/request');

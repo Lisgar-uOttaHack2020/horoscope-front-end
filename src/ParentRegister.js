@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Segment, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
 
-import './ParentRegister.css';
+import './css/ParentRegister.css';
 
 const request = require('./utils/request');
 

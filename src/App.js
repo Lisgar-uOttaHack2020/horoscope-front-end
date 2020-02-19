@@ -7,7 +7,7 @@ import ParentBooking from './ParentBooking';
 import LandingPage from './LandingPage';
 import EndPage from './EndPage';
 
-import './App.css';
+import './css/App.css';
 
 class App extends React.Component {
 

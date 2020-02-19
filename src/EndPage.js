@@ -1,9 +1,9 @@
 
 import React from 'react';
 
-import './Page.css';
+import './css/Page.css';
 
-import docBook from './docBook.svg';
+import docBook from './img/docBook.svg';
 
 class EndPage extends React.Component {
 
