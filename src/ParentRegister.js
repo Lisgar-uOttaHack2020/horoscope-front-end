@@ -5,7 +5,7 @@ import { Segment, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
 
 import './ParentRegister.css';
 
-const fetch = require('node-fetch');
+const request = require('./utils/request');
 
 class ParentRegister extends React.Component {
 
@@ -79,33 +79,20 @@ class ParentRegister extends React.Component {
       'email': this.data.email,
       'children': this.data.children
     };
-    let invalidRequest = false;
- 
-    fetch('/customers', {
+
+    request.send('/customers', {
       method: 'post',
       body:    JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
-    })
-    .then(res => {
-
-      if (res.status !== 200) {
-        invalidRequest = true;
-      }
-
-      return res.json();
-    })
-    .then(json => {
-
-      if (!invalidRequest) {
-        this.props.changeViewFunc('parentBooking', [
-          json.id, this.data.children, 0
-        ]);
-      }
-      else {
-        this.props.displayModalMessageFunc(json.error);
-      }
+    },
+    (json) => {
+      this.props.changeViewFunc('parentBooking', [
+        json.id, this.data.children, 0
+      ]);
+    },
+    (json) => {
+      this.props.displayModalMessageFunc(json.error);
     });
-    
   }
 
   render() {
