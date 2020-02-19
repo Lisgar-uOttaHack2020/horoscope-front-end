@@ -2,7 +2,7 @@
 .app-container {
 
   padding: 45px;
-  min-height: 100vh;
+  min-height: calc(100vh - 128px);
   
   background-image: url("./bg.png");
   background-size: auto 100%;

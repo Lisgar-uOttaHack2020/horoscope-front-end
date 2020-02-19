@@ -10,7 +10,7 @@ import docBook from './docBook.svg';
 class LandingPage extends React.Component {
 
   startApp = () => {
-    this.props.changeViewFunc('customerRegister', null);
+    this.props.changeViewFunc('parentRegister', null);
   }
 
   render() {

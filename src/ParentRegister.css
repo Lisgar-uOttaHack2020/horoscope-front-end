@@ -1,0 +1,16 @@
+
+#child-selection-list > * {
+
+  margin-bottom: 8px;
+}
+
+.child-selection > *:nth-child(2) {
+
+  margin-left: 8px;
+}
+
+.child-selection > *:last-child {
+
+  margin-left: 8px;
+  margin-right: 16px;
+}

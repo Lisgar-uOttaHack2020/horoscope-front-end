@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Modal, Button, Message } from 'semantic-ui-react';
 
-import ViewCustomerRegister from './ViewCustomerRegister';
-import ViewChildChooseDateAndTime from './ViewChildChooseDateAndTime';
+import ParentRegister from './ParentRegister';
+import ParentBooking from './ParentBooking';
 import LandingPage from './LandingPage';
 import EndPage from './EndPage';
 
@@ -53,16 +53,16 @@ class App extends React.Component {
       />;
     }
 
-    else if (this.state.view === 'customerRegister') {
-      viewWidget = <ViewCustomerRegister
+    else if (this.state.view === 'parentRegister') {
+      viewWidget = <ParentRegister
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
         params={this.state.paramsToPass}
       />;
     }
 
-    else if (this.state.view === 'childChooseDateAndTime') {
-      viewWidget = <ViewChildChooseDateAndTime
+    else if (this.state.view === 'parentBooking') {
+      viewWidget = <ParentBooking
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
         params={this.state.paramsToPass}

@@ -3,11 +3,11 @@ import React from 'react';
 
 import { Segment, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
 
-import './ViewCustomerRegister.css';
+import './ParentRegister.css';
 
 const fetch = require('node-fetch');
 
-class ViewCustomerRegister extends React.Component {
+class ParentRegister extends React.Component {
 
   state = {
     childList: []  // A list of all of the child view objects.
@@ -41,7 +41,7 @@ class ViewCustomerRegister extends React.Component {
 
     let tempChildList = this.state.childList.slice();
     tempChildList.push(
-      <ViewChild
+      <ChildSelection
         key={Date.now()}
         index={Date.now()}
         deleteFunc={this.deleteChild}
@@ -104,7 +104,7 @@ class ViewCustomerRegister extends React.Component {
     .then(json => {
 
       if (!invalidRequest) {
-        this.props.changeViewFunc('childChooseDateAndTime', [
+        this.props.changeViewFunc('parentBooking', [
           json.id, this.data.children, 0
         ]);
       }
@@ -132,8 +132,8 @@ class ViewCustomerRegister extends React.Component {
                 <Input placeholder='Email' name='email' onChange={this.onFormChange} />
               </Form.Field>
               <Form.Field>
-                <label>Children </label>
-                <div id='customer-register-child-list'>
+                <label>Children</label>
+                <div id='child-selection-list'>
                   {
                     this.state.childList.map((child) => {
                       return child;
@@ -162,7 +162,7 @@ class ViewCustomerRegister extends React.Component {
   }
 }
 
-class ViewChild extends React.Component {
+class ChildSelection extends React.Component {
 
   onUpdate = (e, {name, value}) => {
 
@@ -172,7 +172,7 @@ class ViewChild extends React.Component {
   render() {
 
     return (
-      <div className='customer-register-child-list-element' style={{display: 'flex'}}>
+      <div className='child-selection' style={{display: 'flex'}}>
         <Input placeholder="Child's full name" onChange={this.onUpdate} />
 
         <Button icon onClick={() => this.props.deleteFunc(this.props.index)}>
@@ -183,4 +183,4 @@ class ViewChild extends React.Component {
   }
 }
 
-export default ViewCustomerRegister;
+export default ParentRegister;
