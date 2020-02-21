@@ -1,12 +1,7 @@
 
 import React from 'react';
-
-import { Segment, Header, Form, Button } from 'semantic-ui-react';
-
+import { Segment, Header, Form, Button, Modal, Icon } from 'semantic-ui-react';
 import './css/TeacherBookingList.css';
-
-const funcs = require('./utils/funcs');
-const request = require('./utils/request');
 
 class TeacherBookingList extends React.Component {
 
@@ -46,13 +41,8 @@ class TeacherBookingList extends React.Component {
 
 class BookedDay extends React.Component {
 
-  constructor(props) {
-
-    super(props);
-  }
-
   state = {
-      date: "[Date]"
+    date: "[Date]"
   };
 
   render() {
@@ -68,16 +58,15 @@ class BookedDay extends React.Component {
 
 class TimeSlot extends React.Component {
 
-  constructor(props) {
-
-    super(props);
-  }
-
   state = {
-      startTime: "[Start Time]",
-      endTime: "[End Time]",
-      room: "[Room]"
+    startTime: "[Start Time]",
+    endTime: "[End Time]",
+    room: "[Room]",
+    modalOpen: false
   };
+
+  closeModal = () => { this.setState({ modalOpen: false }) }
+  openModal = () => { this.setState({ modalOpen: true }) }
 
   render() {
 
@@ -85,10 +74,24 @@ class TimeSlot extends React.Component {
       <div className='booking-time-slot'>
         <label>{this.state.startTime} - {this.state.endTime}</label><br />
         <label>Room: {this.state.room}</label>
-        <div class="time-slot-options">
-            <a href="#edit">Edit</a>
-            <a href="#delete">Delete</a>
+        <div className="time-slot-options">
+          <a href="#edit" onClick={this.openModal}>Edit</a>
+          <a href="#delete">Delete</a>
         </div>
+        <Modal open={this.state.modalOpen}>
+          <Header content='Edit time slot' />
+          <Modal.Content>
+            EDIT CONTENT HERE
+          </Modal.Content>
+          <Modal.Actions>
+            <Button onClick={this.closeModal}>
+              <Icon name='remove' />Cancel
+            </Button>
+            <Button primary onClick={this.closeModal}>
+              <Icon name='checkmark' />Apply
+            </Button>
+          </Modal.Actions>
+        </Modal>
       </div>
     );
   }

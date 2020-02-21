@@ -8,7 +8,7 @@ import './css/App.css';
 class TeacherApp extends React.Component {
 
   state = {
-    view: 'teacher / register',
+    view: 'teacher / booking list',
     paramsToPass: null,
     modalOpen: false,
     modalMessage: ''
