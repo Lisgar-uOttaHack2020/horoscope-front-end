@@ -1,0 +1,11 @@
+.booking-time-slot {
+    margin: 5px 5px 5px 30px;
+}
+
+.time-slot-options {
+    float: right;
+}
+
+.time-slot-options * {
+    margin: 0 5px;
+}
