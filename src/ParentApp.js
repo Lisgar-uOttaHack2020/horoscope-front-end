@@ -7,12 +7,12 @@ import ParentBooking from './ParentBooking';
 import LandingPage from './LandingPage';
 import EndPage from './EndPage';
 
-import './css/App.css';
+import './css/ParentApp.css';
 
-class App extends React.Component {
+class ParentApp extends React.Component {
 
   state = {
-    view: 'landingPage',
+    view: 'parentRegister',
     paramsToPass: null,
     modalOpen: false,
     modalMessage: ''
@@ -92,4 +92,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default ParentApp;
