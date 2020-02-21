@@ -17,8 +17,11 @@ class ParentRegister extends React.Component {
   data = {
     'name': null,
     'email': null,
-    'tempChildren': {},'children': []
+    'children': []
   };
+
+  // Used to store children as an object (converted to array later).
+  tempChildren = {};
 
   // Runs when the name or email is changed. Does NOT run when the child views are changed.
   onFormChange = (e, {name, value}) => {
@@ -55,34 +58,28 @@ class ParentRegister extends React.Component {
       childList: tempList
     });
 
-    delete this.data.tempChildren[index];  // Data must be deleted.
+    delete this.tempChildren[index];  // Data must be deleted.
   }
 
   // Runs when the [index] child value changes.
   updateChild = (index, newVal) => {
 
-    this.data.tempChildren[index] = newVal;
+    this.tempChildren[index] = newVal;
   }
 
   sendData = () => {
 
     // generate data.children
     this.data.children = [];
-    for (let key in this.data.tempChildren) {
-      if (this.data.tempChildren.hasOwnProperty(key)) {
-        this.data.children.push(this.data.tempChildren[key]);
+    for (let key in this.tempChildren) {
+      if (this.tempChildren.hasOwnProperty(key)) {
+        this.data.children.push(this.tempChildren[key]);
       }
     }
 
-    const body = {
-      'name': this.data.name,
-      'email': this.data.email,
-      'children': this.data.children
-    };
-
     request.send('/customers', {
       method: 'post',
-      body:    JSON.stringify(body),
+      body:    JSON.stringify(this.data),
       headers: { 'Content-Type': 'application/json' },
     },
     (json) => {

@@ -81,8 +81,18 @@ class ParentBooking extends React.Component {
 
     if (this.childIndex >= this.childList.length - 1) {
 
-      console.log(this.data);
-      this.props.changeViewFunc('endPage', null);
+      request.send('/bookings/create', {
+        method: 'post',
+        body:    JSON.stringify(this.data),
+        headers: { 'Content-Type': 'application/json' },
+      },
+      (json) => {
+        this.props.changeViewFunc('endPage', null);
+      },
+      (json) => {
+        this.props.displayModalMessageFunc(json.error);
+      });
+
     }
     else {
 
