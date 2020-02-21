@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semantic-ui-react';
+import { Segment, Header, Form, Button } from 'semantic-ui-react';
 
 import './css/TeacherBookingList.css';
 
@@ -9,15 +9,6 @@ const funcs = require('./utils/funcs');
 const request = require('./utils/request');
 
 class TeacherBookingList extends React.Component {
-/*
-  parentId = null;
-  childList = null;
-  childIndex = null;
-  teacherData = null;
-*/
-  state = {
-      //
-  };
 
   data = {};
 

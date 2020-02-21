@@ -10,7 +10,7 @@ class ParentRegister extends React.Component {
     childSelectionList: []
   };
 
-  data = {};
+  data = {};  // Tracks data to be sent for the register request.
   tempChildren = {};  // Stores children as an object (later converted to an array). Useful for deleting/updating children.
 
   onFormChange = (e, { name, value }) => {
@@ -51,7 +51,7 @@ class ParentRegister extends React.Component {
     this.tempChildren[index] = newVal;
   }
 
-  sendData = () => {
+  nextScreen = () => {
 
     // Generate data.children by converting tempChildren from an object to an array.
     this.data.children = [];
@@ -67,8 +67,8 @@ class ParentRegister extends React.Component {
 
   componentDidMount() {
 
-    // Get security key from URL.
-    this.data['security-key'] = queryString.parse(this.props.location.search)['security-key'];
+    // Get code from URL.
+    this.data.code = queryString.parse(this.props.location.search).code;
   }
 
   render() {
@@ -94,7 +94,7 @@ class ParentRegister extends React.Component {
           </Segment>
           <Segment>
             <Form>
-              <Form.Button icon labelPosition='right' fluid primary onClick={this.sendData}>
+              <Form.Button icon labelPosition='right' fluid primary onClick={this.nextScreen}>
                 <Icon name='arrow right' />Next
               </Form.Button>
             </Form>

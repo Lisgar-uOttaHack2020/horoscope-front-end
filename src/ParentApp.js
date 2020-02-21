@@ -3,7 +3,7 @@ import React from 'react';
 import { Modal, Button, Message } from 'semantic-ui-react';
 import ParentRegister from './ParentRegister';
 import ParentBooking from './ParentBooking';
-import './css/ParentApp.css';
+import './css/App.css';
 
 class ParentApp extends React.Component {
 

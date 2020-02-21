@@ -1,30 +1,30 @@
 
 import React from 'react';
-
-import { Segment, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
-
+import { Segment, Header, Form, Icon } from 'semantic-ui-react';
+import queryString from 'query-string';
 import './css/ParentRegister.css';
-
-const request = require('./utils/request');
 
 class TeacherRegister extends React.Component {
 
-  state = {
-    childList: []  // A list of all of the child view objects.
-  };
-
   // Tracks data to be sent for the register request.
-  data = {
-    'first-name': null,
-    'last-name': null,
-    'email': null,
-    'password': null,
-    'confirm-password': null, // necessary?
-    'teacher-code': null
-  };
+  data = {};
+
+  onFormChange = (e, { name, value }) => {
+
+    this.data[name] = value;
+  }
 
   nextScreen = () => {
-    this.props.changeViewFunc('teacherBookingList', null);
+
+    this.props.changeViewFunc('teacher / booking list', null);
+
+    console.log(this.data);
+  }
+
+  componentDidMount() {
+
+    // Get code from URL.
+    this.data.code = queryString.parse(this.props.location.search).code;
   }
 
   render() {
@@ -35,56 +35,21 @@ class TeacherRegister extends React.Component {
           <Segment><Header as='h2'>Teacher Registration</Header></Segment>
           <Segment>
             <Form>
-              <Form.Field>
-                <label>First name</label>
-                <Input placeholder='First name' name='first-name' onChange={this.onFormChange} />
-              </Form.Field>
-              <Form.Field>
-                <label>Last name</label>
-                <Input placeholder='Last name' name='last-name' onChange={this.onFormChange} />
-              </Form.Field>
-              <Form.Field>
-                <label>Email</label>
-                <Input placeholder='Email' name='email' onChange={this.onFormChange} />
-              </Form.Field>
-              <Form.Field>
-                <label>Password</label>
-                <Input placeholder='Password' name='password' type="password" onChange={this.onFormChange} />
-              </Form.Field>
-              <Form.Field>
-                <label>Confirm Password</label>
-                <Input placeholder='Confirm Password' name='confirm-password' type="password" onChange={this.onFormChange} />
-              </Form.Field>
+              <Form.Input label='First name' placeholder='First name' name='first-name' onChange={this.onFormChange} />
+              <Form.Input label='Last name' placeholder='Last name' name='last-name' onChange={this.onFormChange} />
+              <Form.Input label='Email' placeholder='Email' name='email' onChange={this.onFormChange} />
+              <Form.Input label='Password' placeholder='Password' name='password' type='password' onChange={this.onFormChange} />
+              <Form.Input label='Confirm password' placeholder='Password' name='confirm-password' type='password' />
             </Form>
           </Segment>
           <Segment>
-            <Button icon labelPosition='right' fluid primary onClick={this.nextScreen}>
-              <Icon name='arrow right' />
-              Next
-            </Button>
+            <Form>
+              <Form.Button icon labelPosition='right' fluid primary onClick={this.nextScreen}>
+                <Icon name='arrow right' />Next
+              </Form.Button>
+            </Form>
           </Segment>
         </Segment.Group>
-      </div>
-    );
-  }
-}
-
-class ChildSelection extends React.Component {
-
-  onUpdate = (e, {name, value}) => {
-
-    this.props.updateFunc(this.props.index, value);
-  }
-
-  render() {
-
-    return (
-      <div className='child-selection' style={{display: 'flex'}}>
-        <Input placeholder="Child's full name" onChange={this.onUpdate} />
-
-        <Button icon onClick={() => this.props.deleteFunc(this.props.index)}>
-          <Icon name='minus' />
-        </Button>
       </div>
     );
   }

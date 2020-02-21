@@ -1,18 +1,14 @@
+
 import React from 'react';
-
 import { Modal, Button, Message } from 'semantic-ui-react';
-
 import TeacherRegister from './TeacherRegister';
-import ParentBooking from './TeacherBookingList';
-import LandingPage from './LandingPage';
-import EndPage from './EndPage';
-
-import './css/ParentApp.css';
+import TeacherBookingList from './TeacherBookingList';
+import './css/App.css';
 
 class TeacherApp extends React.Component {
 
   state = {
-    view: 'teacherRegister',
+    view: 'teacher / register',
     paramsToPass: null,
     modalOpen: false,
     modalMessage: ''
@@ -43,34 +39,20 @@ class TeacherApp extends React.Component {
 
   render() {
 
-    let viewWidget = <div>:(</div>;
+    let viewWidget = <div>Failed to load view</div>;
 
-    if (this.state.view === 'landingPage') {
-      viewWidget = <LandingPage
-        changeViewFunc={this.changeView}
-        displayModalMessageFunc={this.displayMessage}
-        params={this.state.paramsToPass}
-      />;
-    }
-
-    else if (this.state.view === 'teacherRegister') {
+    if (this.state.view === 'teacher / register') {
       viewWidget = <TeacherRegister
+        location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
         params={this.state.paramsToPass}
       />;
     }
 
-    else if (this.state.view === 'teacherBookingList') {
-      viewWidget = <ParentBooking
-        changeViewFunc={this.changeView}
-        displayModalMessageFunc={this.displayMessage}
-        params={this.state.paramsToPass}
-      />;
-    }
-
-    else if (this.state.view === 'endPage') {
-      viewWidget = <EndPage
+    else if (this.state.view === 'teacher / booking list') {
+      viewWidget = <TeacherBookingList
+        location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
         params={this.state.paramsToPass}
