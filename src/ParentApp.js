@@ -1,12 +1,8 @@
+
 import React from 'react';
-
 import { Modal, Button, Message } from 'semantic-ui-react';
-
 import ParentRegister from './ParentRegister';
 import ParentBooking from './ParentBooking';
-import LandingPage from './LandingPage';
-import EndPage from './EndPage';
-
 import './css/ParentApp.css';
 
 class ParentApp extends React.Component {
@@ -43,18 +39,11 @@ class ParentApp extends React.Component {
 
   render() {
 
-    let viewWidget = <div>:(</div>;
+    let viewWidget = <div>Failed to load view</div>;
 
-    if (this.state.view === 'landingPage') {
-      viewWidget = <LandingPage
-        changeViewFunc={this.changeView}
-        displayModalMessageFunc={this.displayMessage}
-        params={this.state.paramsToPass}
-      />;
-    }
-
-    else if (this.state.view === 'parentRegister') {
+    if (this.state.view === 'parentRegister') {
       viewWidget = <ParentRegister
+        location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
         params={this.state.paramsToPass}
@@ -63,14 +52,7 @@ class ParentApp extends React.Component {
 
     else if (this.state.view === 'parentBooking') {
       viewWidget = <ParentBooking
-        changeViewFunc={this.changeView}
-        displayModalMessageFunc={this.displayMessage}
-        params={this.state.paramsToPass}
-      />;
-    }
-
-    else if (this.state.view === 'endPage') {
-      viewWidget = <EndPage
+        location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
         params={this.state.paramsToPass}

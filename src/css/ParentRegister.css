@@ -1,16 +1,11 @@
 
-#child-selection-list > * {
+.child-selection-container {
 
+  display: flex;
   margin-bottom: 8px;
 }
 
-.child-selection > *:nth-child(2) {
+.child-selection-container > *:not(:first-child) {
 
   margin-left: 8px;
-}
-
-.child-selection > *:last-child {
-
-  margin-left: 8px;
-  margin-right: 16px;
 }
