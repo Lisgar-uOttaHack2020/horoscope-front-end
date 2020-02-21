@@ -1,12 +1,9 @@
 
 import React from 'react';
-
 import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semantic-ui-react';
-
 import './css/ParentBooking.css';
-
-const funcs = require('./utils/funcs');
-const request = require('./utils/request');
+import { numberToDisplayTime } from './utils/funcs';
+import request from './utils/request';
 
 class ParentBooking extends React.Component {
 
@@ -207,7 +204,7 @@ class BookTeacher extends React.Component {
         for (let j = element; j + interval <= timeline[i + 1]; j += interval) {
 
           let startTime = j, endTime = j + interval;
-          let text = funcs.numberToDisplayTime(startTime) + ' to ' + funcs.numberToDisplayTime(endTime);
+          let text = numberToDisplayTime(startTime) + ' to ' + numberToDisplayTime(endTime);
           arr.push(
             { key: i + '_' + j, text: text, value: { start: startTime, end: endTime } }
           );

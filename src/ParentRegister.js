@@ -1,52 +1,40 @@
 
 import React from 'react';
-
 import { Segment, Header, Form, Button, Input, Icon } from 'semantic-ui-react';
-
+import queryString from 'query-string';
 import './css/ParentRegister.css';
-
-const request = require('./utils/request');
 
 class ParentRegister extends React.Component {
 
   state = {
-    childList: []  // A list of all of the child view objects.
+    childSelectionList: []
   };
 
-  // Tracks data to be sent for the register request.
-  data = {
-    'name': null,
-    'email': null,
-    'children': []
-  };
+  data = {};
+  tempChildren = {};  // Stores children as an object (later converted to an array). Useful for deleting/updating children.
 
-  // Used to store children as an object (converted to array later).
-  tempChildren = {};
-
-  // Runs when the name or email is changed. Does NOT run when the child views are changed.
-  onFormChange = (e, {name, value}) => {
+  onFormChange = (e, { name, value }) => {
 
     this.data[name] = value;
   }
 
-  addChild = () => {
+  addChildSelection = () => {
 
-    let tempList = this.state.childList.slice();
+    let tempList = this.state.childSelectionList.slice();
+
     tempList.push(
       <ChildSelection key={Date.now()} index={Date.now()}
-        deleteFunc={this.deleteChild}
-        updateFunc={this.updateChild}
+        deleteFunc={this.deleteChildSelection}
+        updateFunc={this.updateChildSelection}
       />
     );
 
-    this.setState({
-      childList: tempList
-    });
+    this.setState({ childSelectionList: tempList });
   }
 
-  deleteChild = (index) => {
+  deleteChildSelection = (index) => {
 
-    let tempList = this.state.childList.slice();
+    let tempList = this.state.childSelectionList.slice();
 
     tempList.forEach((child, i) => {
       if (child.props.index === index) {
@@ -54,22 +42,18 @@ class ParentRegister extends React.Component {
       }
     });
 
-    this.setState({
-      childList: tempList
-    });
-
-    delete this.tempChildren[index];  // Data must be deleted.
+    this.setState({ childSelectionList: tempList });
+    delete this.tempChildren[index];
   }
 
-  // Runs when the [index] child value changes.
-  updateChild = (index, newVal) => {
+  updateChildSelection = (index, newVal) => {
 
     this.tempChildren[index] = newVal;
   }
 
   sendData = () => {
 
-    // generate data.children
+    // Generate data.children by converting tempChildren from an object to an array.
     this.data.children = [];
     for (let key in this.tempChildren) {
       if (this.tempChildren.hasOwnProperty(key)) {
@@ -77,19 +61,14 @@ class ParentRegister extends React.Component {
       }
     }
 
-    request.send('/customers', {
-      method: 'post',
-      body:    JSON.stringify(this.data),
-      headers: { 'Content-Type': 'application/json' },
-    },
-    (json) => {
-      this.props.changeViewFunc('parentBooking', [
-        json.id, this.data.children, 0
-      ]);
-    },
-    (json) => {
-      this.props.displayModalMessageFunc(json.error);
-    });
+    // TODO: Transition into Parent / Book Child.
+    console.log(this.data); // Temporary.
+  }
+
+  componentDidMount() {
+
+    // Get security key from URL.
+    this.data['security-key'] = queryString.parse(this.props.location.search)['security-key'];
   }
 
   render() {
@@ -100,37 +79,25 @@ class ParentRegister extends React.Component {
           <Segment><Header as='h2'>Registration</Header></Segment>
           <Segment>
             <Form>
-              <Form.Field>
-                <label>Full name</label>
-                <Input placeholder='Full name' name='name' onChange={this.onFormChange} />
-              </Form.Field>
-              <Form.Field>
-                <label>Email</label>
-                <Input placeholder='Email' name='email' onChange={this.onFormChange} />
-              </Form.Field>
+              <Form.Input label="Full name" placeholder='Full name' name='name' onChange={this.onFormChange} />
+              <Form.Input label="Email" placeholder='Email' name='email' onChange={this.onFormChange} />
               <Form.Field>
                 <label>Children</label>
                 <div id='child-selection-list'>
-                  {
-                    this.state.childList.map((child) => {
-                      return child;
-                    })
-                  }
+                  {this.state.childSelectionList.map(childSelection => childSelection)}
                 </div>
               </Form.Field>
-              <Form.Field>
-                <Button icon labelPosition='left' fluid onClick={this.addChild}>
-                  <Icon name='plus' />
-                  Add child
-                </Button>
-              </Form.Field>
+              <Form.Button icon labelPosition='left' fluid onClick={this.addChildSelection}>
+                <Icon name='plus' />Add child
+              </Form.Button>
             </Form>
           </Segment>
           <Segment>
-            <Button icon labelPosition='right' fluid primary onClick={this.sendData}>
-              <Icon name='arrow right' />
-              Next
-            </Button>
+            <Form>
+              <Form.Button icon labelPosition='right' fluid primary onClick={this.sendData}>
+                <Icon name='arrow right' />Next
+              </Form.Button>
+            </Form>
           </Segment>
         </Segment.Group>
       </div>
@@ -140,7 +107,7 @@ class ParentRegister extends React.Component {
 
 class ChildSelection extends React.Component {
 
-  onUpdate = (e, {name, value}) => {
+  onUpdate = (e, { value }) => {
 
     this.props.updateFunc(this.props.index, value);
   }
@@ -148,9 +115,8 @@ class ChildSelection extends React.Component {
   render() {
 
     return (
-      <div className='child-selection' style={{display: 'flex'}}>
+      <div className='child-selection-container'>
         <Input placeholder="Child's full name" onChange={this.onUpdate} />
-
         <Button icon onClick={() => this.props.deleteFunc(this.props.index)}>
           <Icon name='minus' />
         </Button>
