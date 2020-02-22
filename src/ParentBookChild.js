@@ -1,13 +1,13 @@
 
 import React from 'react';
-import { Segment, Header, Form, Icon, Button, Dropdown } from 'semantic-ui-react';
+import { Form, Icon, Button, Dropdown } from 'semantic-ui-react';
+import ViewContainer from './ViewContainer';
 import { getFullName, numberToDisplayTime } from './utils/funcs';
 import './css/ParentBookChild.css';
 
 class ParentBookChild extends React.Component {
 
   state = {
-    bodyMaxHeight: 0,
     childName: null,
     appointmentSelectionList: []
   };
@@ -15,6 +15,7 @@ class ParentBookChild extends React.Component {
   data = {};
   bookingsObj = {};
 
+  // Temporary BEGIN.
   teachersData = [
     {
       '_id': 'ta',
@@ -65,6 +66,7 @@ class ParentBookChild extends React.Component {
       'time': { 'start': 660, 'end': 680 }
     },
   ];
+  // Temporary END.
 
   appointmentSelection_add = () => {
 
@@ -117,13 +119,6 @@ class ParentBookChild extends React.Component {
 
   componentDidMount() {
 
-    this.setState({
-      bodyMaxHeight:
-        'calc(100vh - 218px - ' /* 218px = height of footer + height of padding */
-          + document.querySelector('#header-segment').clientHeight + 'px - '
-          + document.querySelector('#footer-segment').clientHeight + 'px)'
-    });
-
     // TODO: Get child, get teachers data, get bookings data.
 
     // Temporary START.
@@ -139,26 +134,24 @@ class ParentBookChild extends React.Component {
   render() {
 
     return (
-      <div className='view-container'>
-        <Segment.Group>
-          <Segment id='header-segment'><Header as='h2'>Book appointments for: {this.state.childName}</Header></Segment>
-          <Segment style={{maxHeight: this.state.bodyMaxHeight, overflowY: 'auto'}}>
-            <Form>
-              {this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection)}
-            </Form>
-          </Segment>
-          <Segment id='footer-segment'>
-            <Form>
-              <Form.Button icon labelPosition='left' fluid onClick={this.appointmentSelection_add}>
-                <Icon name='plus' />Add appointment
-              </Form.Button>
-              <Form.Button icon labelPosition='right' fluid primary onClick={this.nextScreen}>
-                <Icon name='arrow right' />Next
-              </Form.Button>
-            </Form>
-          </Segment>
-        </Segment.Group>
-      </div>
+      <ViewContainer>
+
+        <div>Book appointments for: {this.state.childName}</div>
+
+        <Form>
+          {this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection)}
+        </Form>
+
+        <Form>
+          <Form.Button icon labelPosition='left' fluid onClick={this.appointmentSelection_add}>
+            <Icon name='plus' />Add appointment
+          </Form.Button>
+          <Form.Button icon labelPosition='right' fluid primary onClick={this.nextScreen}>
+            <Icon name='arrow right' />Next
+          </Form.Button>
+        </Form>
+
+      </ViewContainer>
     );
   }
 }
