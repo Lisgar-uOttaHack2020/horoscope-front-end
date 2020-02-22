@@ -1,17 +1,42 @@
 
-.booking-time-slot {
+.booking-time-container {
 
-  margin-left: 16px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.booking-time-slot-info .definitions {
+.booking-time-slot {
+
+  width: 250px;
+  padding: 8px;
+  margin: 8px;
+}
+
+.booking-time-slot .definitions {
 
   display: grid;
   grid-template-columns: 72px auto;
-  grid-row-gap: 4px;
+  grid-row-gap: 8px;
+  margin-bottom: 12px;
 }
 
-.booking-time-slot-info .definitions > div:nth-child(odd) {
+.booking-time-slot .definitions > div {
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.booking-time-slot .definitions > div:nth-child(odd) {
 
   font-weight: 500;
+}
+
+.booking-time-slot .grid .column:not(:first-child) {
+
+  padding-left: 4px;
+}
+.booking-time-slot .grid .column:not(:last-child) {
+
+  padding-right: 4px;
 }
