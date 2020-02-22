@@ -1,10 +1,18 @@
 
 import React from 'react';
-import { Segment, Header, Form, Icon, Button, Dropdown, TextArea } from 'semantic-ui-react';
-import { uniqueArray, getFullName, numberToDisplayTime } from './utils/funcs';
+import { Segment, Header, Form, Icon, Button, Dropdown } from 'semantic-ui-react';
+import { getFullName, numberToDisplayTime } from './utils/funcs';
 import './css/ParentBookChild.css';
 
 class ParentBookChild extends React.Component {
+
+  state = {
+    childName: null,
+    appointmentSelectionList: []
+  };
+
+  data = {};
+  bookingsObj = {};
 
   teachersData = [
     {
@@ -22,7 +30,6 @@ class ParentBookChild extends React.Component {
       'bookings': [ 'a', 'b', 'c' ]
     },
   ];
-
   bookingsData = [
     {
       '_id': 'bd',
@@ -58,20 +65,86 @@ class ParentBookChild extends React.Component {
     },
   ];
 
+  appointmentSelection_add = () => {
+
+    let tempList = this.state.appointmentSelectionList.slice();
+
+    tempList.push(
+      <AppointmentSelection key={Date.now()} index={Date.now()}
+        teachersData={this.teachersData}
+        bookingsData={this.bookingsData}
+        deleteFunc={this.appointmentSelection_delete}
+        updateFunc={this.appointmentSelection_update}
+      />
+    );
+
+    this.setState({ appointmentSelectionList: tempList });
+  }
+
+  appointmentSelection_delete = (index) => {
+    
+    let tempList = this.state.appointmentSelectionList.slice();
+
+    tempList.forEach((appointmentSelection, i) => {
+      if (appointmentSelection.props.index === index) {
+        tempList.splice(i, 1);
+      }
+    });
+
+    this.setState({ appointmentSelectionList: tempList });
+    delete this.bookingsObj[index];
+  }
+
+  appointmentSelection_update = (index, newVal) => {
+
+    this.bookingsObj[index] = newVal;
+  }
+
+  nextScreen = () => {
+
+    // Generate data by converting bookingsObj from an object to an array.
+    this.data.bookings = [];
+    for (let key in this.bookingsObj) {
+      if (this.bookingsObj.hasOwnProperty(key)) {
+        this.data.bookings.push(this.bookingsObj[key]);
+      }
+    }
+
+    // TODO: Finish parent process.
+    console.log(this.data); // Temporary.
+  }
+
+  componentDidMount() {
+
+    // TODO: Get child, get teachers data, get bookings data.
+
+    // Temporary START.
+    this.data['parent-id'] = 'parent1'
+    this.data['child-name'] = 'Logan Mack';
+
+    this.setState({
+      childName: 'Logan Mack'
+    });
+    // Temporary END.
+  }
+
   render() {
 
     return (
       <div className='view-container'>
         <Segment.Group>
-          <Segment><Header as='h2'>Book appointments for: XYZ</Header></Segment>
+          <Segment><Header as='h2'>Book appointments for: {this.state.childName}</Header></Segment>
           <Segment>
             <Form>
-              <AppointmentSelection teachersData={this.teachersData} bookingsData={this.bookingsData} />
+              {this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection)}
+              <Form.Button icon labelPosition='left' fluid onClick={this.appointmentSelection_add}>
+                <Icon name='plus' />Add appointment
+              </Form.Button>
             </Form>
           </Segment>
           <Segment>
             <Form>
-              <Form.Button icon labelPosition='right' fluid primary>
+              <Form.Button icon labelPosition='right' fluid primary onClick={this.nextScreen}>
                 <Icon name='arrow right' />Next
               </Form.Button>
             </Form>
@@ -101,17 +174,19 @@ class AppointmentSelection extends React.Component {
     timeOptions: null
   };
 
-  selectTeacher = (e, { name, value }) => {
+  selectTeacher = (e, { value }) => {
 
     // Filter only available bookings for the specified teacher.
-    let filterFunc = (booking) => (!booking['parent-id'] && booking['teacher-id'] === value);
+    const filterFunc = (booking) => (
+      !booking['parent-id'] && booking['teacher-id'] === value
+    );
 
     // Filter and format bookingsData to be compatible with the "options" attribute of a dropdown.
-    let dateOptions = uniqueArray(               
-      this.props.bookingsData
-        .filter(booking => filterFunc(booking))
-        .map((booking) => booking.date)
-    ).map((date, i) => ({ key: Date.now() + '_' + i, text: date, value: date }));
+    let dateOptions = this.props.bookingsData;
+        dateOptions = dateOptions.filter(booking => filterFunc(booking));
+        dateOptions = dateOptions.map(booking => booking.date);
+        dateOptions = [...new Set(dateOptions)];
+        dateOptions = dateOptions.map((date, i) => ({ key: Date.now() + '_' + i, text: date, value: date }));
     
     // Clear date and time fields.
     this.dateDropdownRef.current.setState({
@@ -127,21 +202,28 @@ class AppointmentSelection extends React.Component {
       selectTime: null,          // Clear time value.
       dateOptions: dateOptions,
     });
+
+    // Remove selected booking.
+    this.props.updateFunc(this.props.index, null);
   }
 
-  selectDate = (e, { name, value }) => {
+  selectDate = (e, { value }) => {
+
+    const displayTextFunc = (booking) => (
+      numberToDisplayTime(booking.time.start) + ' to ' + numberToDisplayTime(booking.time.end) + ' > Room ' + booking.room
+    );
 
     // Filter only available bookings for the specified teacher on the specified date.
-    let filterFunc = (booking) => (
+    const filterFunc = (booking) => (
       !booking['parent-id'] && booking['teacher-id'] === this.state.selectedTeacher && booking.date === value
     );
     
     // Filter and format bookingsData to be compatible with the "options" attribute of a dropdown.
-    let timeOptions = uniqueArray(
-      this.props.bookingsData
-        .filter(booking => filterFunc(booking))
-        .map((booking) => (numberToDisplayTime(booking.time.start) + ' to ' + numberToDisplayTime(booking.time.end)))
-    ).map((time, i) => ({ key: Date.now() + '_' + i, text: time, value: time }));
+    // Times are unique after filtering.
+    let timeOptions = this.props.bookingsData;
+        timeOptions = timeOptions.filter(booking => filterFunc(booking));
+        timeOptions = timeOptions.map(booking => ({ text: displayTextFunc(booking), value: booking._id }));
+        timeOptions = timeOptions.map((time, i) => ({ key: Date.now() + '_' + i, text: time.text, value: time.value }));
     
     // Clear time field.
     this.timeDropdownRef.current.setState({
@@ -153,13 +235,19 @@ class AppointmentSelection extends React.Component {
       selectTime: null,         // Clear time value.
       timeOptions: timeOptions
     });
+
+    // Remove selected booking.
+    this.props.updateFunc(this.props.index, null);
   }
 
-  selectTime = (e, { name, value }) => {
+  selectTime = (e, { value }) => {
 
     this.setState({
       selectedDate: value
     });
+
+    // Update selected booking.
+    this.props.updateFunc(this.props.index, value);
   }
 
   componentDidMount() {
@@ -177,29 +265,23 @@ class AppointmentSelection extends React.Component {
     return (
       <Form.Field className='appointment-selection-container'>
         <label>Appointment</label>
-        <Dropdown
-          placeholder='Select a teacher' fluid search selection
+        <Dropdown placeholder='Select a teacher' fluid search selection
           options={this.state.teacherOptions}
           onChange={this.selectTeacher}
         />
-        <Dropdown
-          placeholder='Select date' fluid search selection
+        <Dropdown placeholder='Select date' fluid search selection
           ref={this.dateDropdownRef}
           options={this.state.dateOptions}
           onChange={this.selectDate}
           disabled={!this.state.selectedTeacher}
         />
-        <Dropdown
-          placeholder='Select time' fluid search selection
+        <Dropdown placeholder='Select time' fluid search selection
           ref={this.timeDropdownRef}
           options={this.state.timeOptions}
           onChange={this.selectTime}
           disabled={!this.state.selectedDate}
         />
-        <TextArea
-          placeholder='Comments'
-        />
-        <Button icon fluid labelPosition='left'>
+        <Button icon fluid labelPosition='left' onClick={() => this.props.deleteFunc(this.props.index)}>
           <Icon name='minus' />Remove appointment
         </Button>
       </Form.Field>

@@ -11,28 +11,28 @@ class ParentRegister extends React.Component {
   };
 
   data = {};
-  tempChildren = {};  // Stores children as an object (later converted to an array). Useful for deleting/updating children.
+  childrenObj = {};  // Stores children as an object (later converted to an array). Useful for deleting/updating children.
 
   onFormChange = (e, { name, value }) => {
 
     this.data[name] = value;
   }
 
-  addChildSelection = () => {
+  childSelection_add = () => {
 
     let tempList = this.state.childSelectionList.slice();
 
     tempList.push(
       <ChildSelection key={Date.now()} index={Date.now()}
-        deleteFunc={this.deleteChildSelection}
-        updateFunc={this.updateChildSelection}
+        deleteFunc={this.childSelection_delete}
+        updateFunc={this.childSelection_update}
       />
     );
 
     this.setState({ childSelectionList: tempList });
   }
 
-  deleteChildSelection = (index) => {
+  childSelection_delete = (index) => {
 
     let tempList = this.state.childSelectionList.slice();
 
@@ -43,21 +43,21 @@ class ParentRegister extends React.Component {
     });
 
     this.setState({ childSelectionList: tempList });
-    delete this.tempChildren[index];
+    delete this.childrenObj[index];
   }
 
-  updateChildSelection = (index, newVal) => {
+  childSelection_update = (index, newVal) => {
 
-    this.tempChildren[index] = newVal;
+    this.childrenObj[index] = newVal;
   }
 
   sendData = () => {
 
-    // Generate data.children by converting tempChildren from an object to an array.
+    // Generate data.children by converting childrenObj from an object to an array.
     this.data.children = [];
-    for (let key in this.tempChildren) {
-      if (this.tempChildren.hasOwnProperty(key)) {
-        this.data.children.push(this.tempChildren[key]);
+    for (let key in this.childrenObj) {
+      if (this.childrenObj.hasOwnProperty(key)) {
+        this.data.children.push(this.childrenObj[key]);
       }
     }
 
@@ -87,7 +87,7 @@ class ParentRegister extends React.Component {
                   {this.state.childSelectionList.map(childSelection => childSelection)}
                 </div>
               </Form.Field>
-              <Form.Button icon labelPosition='left' fluid onClick={this.addChildSelection}>
+              <Form.Button icon labelPosition='left' fluid onClick={this.childSelection_add}>
                 <Icon name='plus' />Add child
               </Form.Button>
             </Form>
