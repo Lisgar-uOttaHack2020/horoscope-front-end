@@ -1,14 +1,14 @@
 
 import React from 'react';
 import { Modal, Button, Message } from 'semantic-ui-react';
-import ParentRegister from './ParentRegister';
-import ParentBookChild from './ParentBookChild';
+import TeacherRegister from './TeacherRegister';
+import TeacherBookingList from './TeacherBookingList';
 import './css/App.css';
 
-class ParentApp extends React.Component {
+class TeacherApp extends React.Component {
 
   state = {
-    view: 'parent / book child',
+    view: 'teacher / booking list',
     paramsToPass: null,
     modalOpen: false,
     modalMessage: ''
@@ -41,8 +41,8 @@ class ParentApp extends React.Component {
 
     let viewWidget = <div>Failed to load view</div>;
 
-    if (this.state.view === 'parent / register') {
-      viewWidget = <ParentRegister
+    if (this.state.view === 'teacher / register') {
+      viewWidget = <TeacherRegister
         location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
@@ -50,8 +50,8 @@ class ParentApp extends React.Component {
       />;
     }
 
-    else if (this.state.view === 'parent / book child') {
-      viewWidget = <ParentBookChild
+    else if (this.state.view === 'teacher / booking list') {
+      viewWidget = <TeacherBookingList
         location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
@@ -74,4 +74,4 @@ class ParentApp extends React.Component {
   }
 }
 
-export default ParentApp;
+export default TeacherApp;

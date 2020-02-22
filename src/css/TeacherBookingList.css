@@ -1,0 +1,17 @@
+
+.booking-time-slot {
+
+  margin-left: 16px;
+}
+
+.booking-time-slot-info .definitions {
+
+  display: grid;
+  grid-template-columns: 72px auto;
+  grid-row-gap: 4px;
+}
+
+.booking-time-slot-info .definitions > div:nth-child(odd) {
+
+  font-weight: 500;
+}
