@@ -1,4 +1,14 @@
 
+const uniqueArray = (arr) => {
+
+  return [... new Set(arr)];
+}
+
+const getFullName = (obj) => {
+
+  return obj['first-name'] + ' ' + obj['last-name'];
+}
+
 const numberToDisplayTime = (num) => {
     
   let hours = Math.floor(num / 60);
@@ -23,3 +33,5 @@ const numberToDisplayTime = (num) => {
 }
 
 exports.numberToDisplayTime = numberToDisplayTime;
+exports.uniqueArray = uniqueArray;
+exports.getFullName = getFullName;
