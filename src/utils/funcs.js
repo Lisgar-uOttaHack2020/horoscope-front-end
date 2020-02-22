@@ -1,4 +1,9 @@
 
+const getFullName = (obj) => {
+
+  return obj['first-name'] + ' ' + obj['last-name'];
+}
+
 const numberToDisplayTime = (num) => {
     
   let hours = Math.floor(num / 60);
@@ -23,3 +28,4 @@ const numberToDisplayTime = (num) => {
 }
 
 exports.numberToDisplayTime = numberToDisplayTime;
+exports.getFullName = getFullName;
