@@ -1,13 +1,10 @@
 
 import React from 'react';
 import { Segment, Header, Form, Button, Modal, Icon, List } from 'semantic-ui-react';
+import ViewContainer from './ViewContainer';
 import './css/TeacherBookingList.css';
 
 class TeacherBookingList extends React.Component {
-
-  state = {
-    maxBodyHeight: 0
-  }
 
   data = {};
 
@@ -15,42 +12,32 @@ class TeacherBookingList extends React.Component {
       
   }
 
-  componentDidMount() {
-
-    this.setState({
-      bodyMaxHeight:
-        'calc(100vh - 218px - ' /* 218px = height of footer + height of padding */
-          + document.querySelector('#header-segment').clientHeight + 'px - '
-          + document.querySelector('#footer-segment').clientHeight + 'px)'
-    });
-  }
-
   render() {
 
     return (
-      <div className='view-container'>
-        <Segment.Group>
-          <Segment id='header-segment'><Header as='h2'>List of appointments</Header></Segment>
-          <Segment style={{maxHeight: this.state.bodyMaxHeight, overflowY: 'auto'}}>
-            <BookedDay>
-              <TimeSlot />
-              <TimeSlot />
-              <TimeSlot />
-            </BookedDay>
-            <BookedDay>
-              <TimeSlot />
-              <TimeSlot />
-            </BookedDay>
-          </Segment>
-          <Segment id='footer-segment'>
-            <Form>
-              <Form.Button icon labelPosition='left' fluid onClick={this.addNew}>
-                <Icon name='plus' />Add appointment
-              </Form.Button>
-            </Form>
-          </Segment>
-        </Segment.Group>
-      </div>
+      <ViewContainer width='100%'>
+
+       <div>Bookings</div>
+
+       <div>
+        <BookedDay>
+          <TimeSlot />
+          <TimeSlot />
+          <TimeSlot />
+        </BookedDay>
+        <BookedDay>
+          <TimeSlot />
+          <TimeSlot />
+        </BookedDay>
+        </div>
+
+        <Form>
+          <Form.Button icon labelPosition='left' fluid onClick={this.addNew}>
+            <Icon name='plus' />Add appointment
+          </Form.Button>
+        </Form>
+        
+      </ViewContainer>
     );
   }
 }
@@ -89,7 +76,8 @@ class TimeSlot extends React.Component {
 
   render() {
 
-    return (
+    // <></> allow for returning a list of components without a wrapper. Wrappers mess up List.Item's formatting.
+    return <>
       <List.Item className='booking-time-slot'>
         <List.Content floated='right'>
           <Button icon='edit' onClick={this.openModal} />
@@ -105,23 +93,22 @@ class TimeSlot extends React.Component {
             <div>{this.state.room}</div>
           </div>
         </List.Content>
-
-        <Modal open={this.state.modalOpen}>
-          <Header content='Edit time slot' />
-          <Modal.Content>
-            EDIT CONTENT HERE
-          </Modal.Content>
-          <Modal.Actions>
-            <Button onClick={this.closeModal}>
-              <Icon name='remove' />Cancel
-            </Button>
-            <Button primary onClick={this.closeModal}>
-              <Icon name='checkmark' />Apply
-            </Button>
-          </Modal.Actions>
-        </Modal>
       </List.Item>
-    );
+      <Modal open={this.state.modalOpen}>
+        <Header content='Edit time slot' />
+        <Modal.Content>
+          EDIT CONTENT HERE
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={this.closeModal}>
+            <Icon name='remove' />Cancel
+          </Button>
+          <Button primary onClick={this.closeModal}>
+            <Icon name='checkmark' />Apply
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    </>;
   }
 }
 
