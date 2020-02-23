@@ -6,37 +6,61 @@ import './css/TeacherBookingList.css';
 
 class TeacherBookingList extends React.Component {
 
+  state = {
+      modalOpen: false
+  }
+
   data = {};
 
   timeSlot_add = () => {
       
   }
 
+  closeModal = () => { this.setState({ modalOpen: false }) }
+  openModal = () => { this.setState({ modalOpen: true }) }
+
   render() {
 
     return (
       <ViewContainer width='100%' maxWidth='1140px'>
+        <Header>
+          <div>Bookings</div>
+        </Header>
 
-       <div>Bookings</div>
+          <List relaxed divided>
+            <BookedDay>
+              <TimeSlot /><TimeSlot /><TimeSlot />
+              <TimeSlot /><TimeSlot /><TimeSlot />
+              <TimeSlot /><TimeSlot /><TimeSlot />
+            </BookedDay>
+            <BookedDay>
+              <TimeSlot />
+              <TimeSlot />
+            </BookedDay>
+          </List>
 
-       <List relaxed divided>
-        <BookedDay>
-          <TimeSlot /><TimeSlot /><TimeSlot />
-          <TimeSlot /><TimeSlot /><TimeSlot />
-          <TimeSlot /><TimeSlot /><TimeSlot />
-        </BookedDay>
-        <BookedDay>
-          <TimeSlot />
-          <TimeSlot />
-        </BookedDay>
-        </List>
-
-        <Form>
-          <Form.Button icon labelPosition='left' fluid positive onClick={this.timeSlot_add}>
-            <Icon name='add' />Add appointment
-          </Form.Button>
-        </Form>
-        
+        <footer>
+          <Form>
+            <Form.Button icon labelPosition='left' fluid positive onClick={this.openModal}>
+              <Icon name='add' />Add appointment
+            </Form.Button>
+          </Form>
+          
+          <Modal open={this.state.modalOpen}>
+            <Header content='Edit time slot' />
+            <Modal.Content>
+              EDIT CONTENT HERE
+            </Modal.Content>
+            <Modal.Actions>
+              <Button onClick={this.closeModal}>
+                <Icon name='remove' />Cancel
+              </Button>
+              <Button primary onClick={this.closeModal}>
+                <Icon name='checkmark' />Apply
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        </footer>
       </ViewContainer>
     );
   }
