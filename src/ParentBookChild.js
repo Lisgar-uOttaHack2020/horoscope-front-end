@@ -143,8 +143,8 @@ class ParentBookChild extends React.Component {
         </Form>
 
         <Form>
-          <Form.Button icon labelPosition='left' fluid onClick={this.appointmentSelection_add}>
-            <Icon name='plus' />Add appointment
+          <Form.Button icon labelPosition='left' fluid positive onClick={this.appointmentSelection_add}>
+            <Icon name='add' />Add appointment
           </Form.Button>
           <Form.Button icon labelPosition='right' fluid primary onClick={this.nextScreen}>
             <Icon name='arrow right' />Next
@@ -282,8 +282,8 @@ class AppointmentSelection extends React.Component {
           onChange={this.selectTime}
           disabled={!this.state.selectedDate}
         />
-        <Button icon fluid labelPosition='left' onClick={() => this.props.deleteFunc(this.props.index)}>
-          <Icon name='minus' />Remove appointment
+        <Button icon labelPosition='left' fluid basic negative onClick={() => this.props.deleteFunc(this.props.index)}>
+          <Icon name='delete' />Remove appointment
         </Button>
       </Form.Field>
     );

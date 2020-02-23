@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Segment, Header, Form, Button, Modal, Icon, Grid } from 'semantic-ui-react';
+import { Header, Form, Button, Modal, Icon, Grid, List } from 'semantic-ui-react';
 import ViewContainer from './ViewContainer';
 import './css/TeacherBookingList.css';
 
@@ -15,11 +15,11 @@ class TeacherBookingList extends React.Component {
   render() {
 
     return (
-      <ViewContainer width='100%'>
+      <ViewContainer width='100%' maxWidth='1140px'>
 
        <div>Bookings</div>
 
-       <div>
+       <List relaxed divided>
         <BookedDay>
           <TimeSlot /><TimeSlot /><TimeSlot />
           <TimeSlot /><TimeSlot /><TimeSlot />
@@ -29,11 +29,11 @@ class TeacherBookingList extends React.Component {
           <TimeSlot />
           <TimeSlot />
         </BookedDay>
-        </div>
+        </List>
 
         <Form>
-          <Form.Button icon labelPosition='left' fluid onClick={this.timeSlot_add}>
-            <Icon name='plus' />Add appointment
+          <Form.Button icon labelPosition='left' fluid positive onClick={this.timeSlot_add}>
+            <Icon name='add' />Add appointment
           </Form.Button>
         </Form>
         
@@ -51,12 +51,14 @@ class BookedDay extends React.Component {
   render() {
 
     return (
-      <Segment>
-        <Header size='small'>{this.state.date}</Header>
-        <div className='booking-time-container'>
-          {this.props.children}
-        </div>
-      </Segment>
+      <List.Item style={{padding: '16px 8px'}}>
+        <List.Content>
+          <Header size='small'>{this.state.date}</Header>
+          <div className='booking-time-container'>
+            {this.props.children}
+          </div>
+        </List.Content>
+      </List.Item>
     );
   }
 }
@@ -76,7 +78,7 @@ class TimeSlot extends React.Component {
 
   render() {
 
-    // <></> allow for returning a list of components without a wrapper. Wrappers mess up List.Item's formatting.
+    // <></> allow for returning a list of components without a wrapper.
     return <>
 
       <div className='booking-time-slot'>
@@ -91,10 +93,10 @@ class TimeSlot extends React.Component {
         <Grid columns={2}>
           <Grid.Row>
             <Grid.Column>
-              <Button icon='edit' fluid onClick={this.openModal} />
+              <Button icon='edit' basic primary fluid onClick={this.openModal} />
             </Grid.Column>
             <Grid.Column>
-              <Button icon='delete' fluid />
+              <Button icon='delete' basic negative fluid />
             </Grid.Column>
           </Grid.Row>
         </Grid>
