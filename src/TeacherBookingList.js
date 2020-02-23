@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Header, Form, Button, Modal, Icon, Grid, List } from 'semantic-ui-react';
+import TimeInput from './TimeInput';
 import ViewContainer from './ViewContainer';
 import { numberToDisplayTime } from './utils/funcs';
 import './css/TeacherBookingList.css';
@@ -104,12 +105,8 @@ class TeacherBookingList extends React.Component {
                 <Form.Input label='Date' placeholder='Date' name='date'
                   onChange={this.onFormChange}
                 />
-                <Form.Input label='Start time' placeholder='Start time' name='start-time'
-                  onChange={this.onFormChange}
-                />
-                <Form.Input label='End time' placeholder='End time' name='end-time'
-                  onChange={this.onFormChange}
-                />
+                <TimeInput />  {/* For start-time */}
+                <TimeInput />  {/* For end-time */}
                 <Form.Input label='Room' placeholder='Room number' name='room'
                   onChange={this.onFormChange}
                 />
