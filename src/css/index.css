@@ -6,7 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: #40ff40;
+  background-color: #202020;
   overflow: hidden;
 }
 
@@ -29,4 +29,10 @@ footer > .highlight {
   background-color: rgba(0, 0, 0, 0.8);
   border-radius: 4px;
   padding: 8px 16px;
+}
+
+.ui.input > input, .ui.dropdown {
+
+  /*border-color: rgb(118, 118, 118) !important;*/
+  border-color: rgb(172, 172, 172) !important;
 }
