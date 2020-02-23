@@ -9,11 +9,7 @@ import './css/TeacherBookingList.css';
 class TeacherBookingList extends React.Component {
 
   state = {
-    timeSlotList: [
-      <TimeSlot key={'1'} index={'1'} date='2020-03-26' start-time={840} end-time={900} student='Emily Yu' room='109' />,
-      <TimeSlot key={'2'} index={'2'} date='2020-03-27' start-time={810} end-time={870} student='Max Huang' room='150' />,
-      <TimeSlot key={'3'} index={'3'} date='2020-03-26' start-time={780} end-time={840} student='Logan Mack' room='109' />
-    ],
+    timeSlotList: [],
     modalOpen: false
   }
 
@@ -41,11 +37,38 @@ class TeacherBookingList extends React.Component {
         end-time={parseInt(this.tempForm['end-time'])}
         room={this.tempForm['room']}
         student='Empty'
+        deleteFunc={this.timeSlot_delete}
       />
     );
 
     this.setState({ timeSlotList: tempList });
     this.closeModal();
+  }
+
+  timeSlot_delete = (index) => {
+    
+    let tempList = this.state.timeSlotList.slice();
+
+    tempList.forEach((timeSlot, i) => {
+      if (timeSlot.props.index === index) {
+        tempList.splice(i, 1);
+      }
+    });
+
+    this.setState({ timeSlotList: tempList });
+  }
+
+  componentDidMount() {
+
+    // TODO: Remove this part.
+
+    this.setState({
+      timeSlotList: [
+        <TimeSlot key={'1'} index={'1'} date='2020-03-26' start-time={840} end-time={900} student='Emily Yu' room='109' deleteFunc={this.timeSlot_delete} />,
+        <TimeSlot key={'2'} index={'2'} date='2020-03-27' start-time={810} end-time={870} student='Max Huang' room='150' deleteFunc={this.timeSlot_delete} />,
+        <TimeSlot key={'3'} index={'3'} date='2020-03-26' start-time={780} end-time={840} student='Logan Mack' room='109' deleteFunc={this.timeSlot_delete} />
+      ]
+    });
   }
 
   renderTimeSlots = () => {
@@ -174,6 +197,11 @@ class TimeSlot extends React.Component {
     this.closeModal();
   }
 
+  onDelete = () => {
+
+    this.props.deleteFunc(this.props.index);
+  }
+
   componentDidMount() {
 
     // Fetch booking parameters from props.
@@ -205,7 +233,7 @@ class TimeSlot extends React.Component {
               <Button icon='edit' basic primary fluid onClick={this.openModal} />
             </Grid.Column>
             <Grid.Column>
-              <Button icon='delete' basic negative fluid />
+              <Button icon='delete' basic negative fluid onClick={this.onDelete} />
             </Grid.Column>
           </Grid.Row>
         </Grid>

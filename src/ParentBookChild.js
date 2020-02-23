@@ -251,6 +251,11 @@ class AppointmentSelection extends React.Component {
     this.props.updateFunc(this.props.index, value);
   }
 
+  onDelete = () => {
+
+    this.props.deleteFunc(this.props.index);
+  }
+
   componentDidMount() {
 
     let teacherOptions = this.props.teachersData
@@ -282,7 +287,7 @@ class AppointmentSelection extends React.Component {
           onChange={this.selectTime}
           disabled={!this.state.selectedDate}
         />
-        <Button icon labelPosition='left' fluid basic negative onClick={() => this.props.deleteFunc(this.props.index)}>
+        <Button icon labelPosition='left' fluid basic negative onClick={this.onDelete}>
           <Icon name='delete' />Remove appointment
         </Button>
       </Form.Field>

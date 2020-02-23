@@ -111,12 +111,17 @@ class ChildSelection extends React.Component {
     this.props.updateFunc(this.props.index, value);
   }
 
+  onDelete = () => {
+
+    this.props.deleteFunc(this.props.index);
+  }
+
   render() {
 
     return (
       <div className='child-selection-container'>
         <Input placeholder="Child's full name" onChange={this.onUpdate} />
-        <Button icon basic negative onClick={() => this.props.deleteFunc(this.props.index)}>
+        <Button icon basic negative onClick={this.onDelete}>
           <Icon name='delete' />
         </Button>
       </div>
