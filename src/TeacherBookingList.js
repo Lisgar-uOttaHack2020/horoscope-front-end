@@ -47,9 +47,13 @@ class TeacherBookingList extends React.Component {
           </Form>
           
           <Modal open={this.state.modalOpen}>
-            <Header content='Edit time slot' />
+            <Header content='Create new appointment' />
             <Modal.Content>
-              EDIT CONTENT HERE
+              <Form>
+                <Form.Input label="Start time" placeholder="Start time" name="startTime" />
+                <Form.Input label="End time" placeholder="End time" name="endTime" />
+                <Form.Input label="Room" placeholder="Room number" name="room" />
+              </Form>
             </Modal.Content>
             <Modal.Actions>
               <Button onClick={this.closeModal}>
@@ -129,7 +133,11 @@ class TimeSlot extends React.Component {
       <Modal open={this.state.modalOpen}>
         <Header content='Edit time slot' />
         <Modal.Content>
-          EDIT CONTENT HERE
+          <Form>
+            <Form.Input label="Start time" placeholder="Start time" name="startTime" value={this.state.startTime} />
+            <Form.Input label="End time" placeholder="End time" name="endTime" value={this.state.endTime} />
+            <Form.Input label="Room" placeholder="Room number" name="room" value={this.state.room} />
+          </Form>
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={this.closeModal}>
