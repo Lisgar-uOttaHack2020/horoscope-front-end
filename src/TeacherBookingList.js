@@ -3,7 +3,7 @@ import React from 'react';
 import { Header, Form, Button, Modal, Icon, Grid, List } from 'semantic-ui-react';
 import TimeInput from './TimeInput';
 import ViewContainer from './ViewContainer';
-import { numberToDisplayTime } from './utils/funcs';
+import { displayTime, displayDate } from './utils/time';
 import './css/TeacherBookingList.css';
 
 class TeacherBookingList extends React.Component {
@@ -158,7 +158,7 @@ class BookedDay extends React.Component {
     return (
       <List.Item style={{padding: '16px 8px'}}>
         <List.Content>
-          <Header size='small'>{this.props.date}</Header>
+          <Header size='small'>{displayDate(this.props.date)}</Header>
           <div className='booking-time-container'>
             {this.props.children}
           </div>
@@ -182,7 +182,7 @@ class TimeSlot extends React.Component {
   onFormChange = (e, { name, value }) => {
 
     if (name === 'start-time' || name === 'end-time')
-      this.tempForm[name] = numberToDisplayTime(value);
+      this.tempForm[name] = displayTime(value);
     else
       this.tempForm[name] = value;
   }
@@ -199,6 +199,8 @@ class TimeSlot extends React.Component {
 
   onDelete = () => {
 
+    // TODO: Delete booking with endpoint.
+
     this.props.deleteFunc(this.props.index);
   }
 
@@ -206,8 +208,8 @@ class TimeSlot extends React.Component {
 
     // Fetch booking parameters from props.
     this.setState({
-      'start-time': numberToDisplayTime(this.props['start-time']),
-      'end-time': numberToDisplayTime(this.props['end-time']),
+      'start-time': displayTime(this.props['start-time']),
+      'end-time': displayTime(this.props['end-time']),
       'room': this.props['room'],
       'student': this.props['student']
     });

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Form, Icon, Button, Dropdown } from 'semantic-ui-react';
 import ViewContainer from './ViewContainer';
-import { getFullName, numberToDisplayTime } from './utils/funcs';
+import { displayDate, displayTime } from './utils/time';
 import './css/ParentBookChild.css';
 
 class ParentBookChild extends React.Component {
@@ -38,7 +38,7 @@ class ParentBookChild extends React.Component {
       'parent-id': 'pa',
       'teacher-id': 'ta',
       'room': '109',
-      'date': 'March 26th',
+      'date': '2020-03-26',
       'time': { 'start': 700, 'end': 720 }
     },
     {
@@ -46,7 +46,7 @@ class ParentBookChild extends React.Component {
       'parent-id': null,
       'teacher-id': 'ta',
       'room': '109',
-      'date': 'March 26th',
+      'date': '2020-03-26',
       'time': { 'start': 720, 'end': 740 }
     },
     {
@@ -54,7 +54,7 @@ class ParentBookChild extends React.Component {
       'parent-id': null,
       'teacher-id': 'ta',
       'room': '109',
-      'date': 'March 26th',
+      'date': '2020-03-27',
       'time': { 'start': 740, 'end': 760 }
     },
     {
@@ -62,7 +62,7 @@ class ParentBookChild extends React.Component {
       'parent-id': null,
       'teacher-id': 'ta',
       'room': '110',
-      'date': 'March 27th',
+      'date': '2020-03-27',
       'time': { 'start': 660, 'end': 680 }
     },
   ];
@@ -187,7 +187,7 @@ class AppointmentSelection extends React.Component {
         dateOptions = dateOptions.filter(booking => filterFunc(booking));
         dateOptions = dateOptions.map(booking => booking.date);
         dateOptions = [...new Set(dateOptions)];
-        dateOptions = dateOptions.map((date, i) => ({ key: Date.now() + '_' + i, text: date, value: date }));
+        dateOptions = dateOptions.map((date, i) => ({ key: Date.now() + '_' + i, text: displayDate(date), value: date }));
     
     // Clear date and time fields.
     this.dateDropdownRef.current.setState({
@@ -211,7 +211,7 @@ class AppointmentSelection extends React.Component {
   selectDate = (e, { value }) => {
 
     const displayTextFunc = (booking) => (
-      numberToDisplayTime(booking.time.start) + ' to ' + numberToDisplayTime(booking.time.end) + ' > Room ' + booking.room
+      displayTime(booking.time.start) + ' to ' + displayTime(booking.time.end) + ' > Room ' + booking.room
     );
 
     // Filter only available bookings for the specified teacher on the specified date.
@@ -258,8 +258,10 @@ class AppointmentSelection extends React.Component {
 
   componentDidMount() {
 
+    const displayTextFunc = (teacher) => (teacher['first-name'] + ' ' + teacher['last-name']);
+
     let teacherOptions = this.props.teachersData
-      .map((teacher, i) => ({ key: Date.now() + '_' + i, text: getFullName(teacher), value: teacher._id }));
+      .map((teacher, i) => ({ key: Date.now() + '_' + i, text: displayTextFunc(teacher), value: teacher._id }));
 
     this.setState({
       teacherOptions: teacherOptions
