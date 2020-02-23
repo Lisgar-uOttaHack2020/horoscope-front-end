@@ -29,11 +29,10 @@ class ViewContainer extends React.Component {
       if (i === 2) footer = child;
     });
 
-    let width    = this.props.width    ? this.props.width    : '50vw';
-    let maxWidth = this.props.maxWidth ? this.props.maxWidth : '50vw';
+    let maxWidth = this.props.maxWidth ? this.props.maxWidth : '600px';
 
     return (
-      <div className='view-container' style={{width: width, maxWidth: maxWidth}}>
+      <div className='view-container' style={{maxWidth: maxWidth}}>
         <Segment.Group>
           <Segment id='header-segment'>
             <Header as='h2'>{header}</Header>

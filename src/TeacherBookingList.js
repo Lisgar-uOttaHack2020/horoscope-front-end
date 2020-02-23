@@ -108,7 +108,7 @@ class TeacherBookingList extends React.Component {
   render() {
 
     return (
-      <ViewContainer width='100%' maxWidth='1140px'>
+      <ViewContainer maxWidth='1140px'>
 
         <div>Bookings</div>
 
