@@ -13,7 +13,7 @@ class ViewContainer extends React.Component {
 
     this.setState({
       bodyMaxHeight:
-        'calc(100vh - 218px - ' /* 218px = height of footer + height of padding */
+        'calc(100vh - 141px - 8px - ' /* 141px = height of footer + height of padding, 8px for buffer */
           + document.querySelector('#header-segment').clientHeight + 'px - '
           + document.querySelector('#footer-segment').clientHeight + 'px)'
     });
