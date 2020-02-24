@@ -128,8 +128,8 @@ class TeacherBookingList extends React.Component {
                 <Form.Input label='Date' placeholder='Date' name='date'
                   onChange={this.onFormChange}
                 />
-                <TimeInput />  {/* For start-time */}
-                <TimeInput />  {/* For end-time */}
+                <TimeInput label="Start time" />  {/* For start-time */}
+                <TimeInput label="End time" />  {/* For end-time */}
                 <Form.Input label='Room' placeholder='Room number' name='room'
                   onChange={this.onFormChange}
                 />
