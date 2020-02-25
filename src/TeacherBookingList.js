@@ -2,6 +2,7 @@
 import React from 'react';
 import { Header, Form, Button, Modal, Icon, Grid, List } from 'semantic-ui-react';
 import TimeInput from './TimeInput';
+import DateInput from './DateInput';
 import ViewContainer from './ViewContainer';
 import { displayTime, displayDate } from './utils/time';
 import './css/TeacherBookingList.css';
@@ -125,9 +126,7 @@ class TeacherBookingList extends React.Component {
             <Header content='Create new appointment' />
             <Modal.Content>
               <Form>
-                <Form.Input label='Date' placeholder='Date' name='date'
-                  onChange={this.onFormChange}
-                />
+                <DateInput label="Date" />
                 <TimeInput label="Start time" />  {/* For start-time */}
                 <TimeInput label="End time" />  {/* For end-time */}
                 <Form.Input label='Room' placeholder='Room number' name='room'

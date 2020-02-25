@@ -10,17 +10,17 @@ class TimeInput extends React.Component {
   render() {
 
     // options for dropdowns
-    var testOptions = [];
+    var hourOptions = [];
     var minuteOptions = [];
 
     // populate lists
     for (var i = 1; i <= 12; i++){
-      var option = {value: i, text: i};
-      testOptions.push(option);
+      var option = {value: i, text: i, key: Date.now() + '_' + i};
+      hourOptions.push(option);
     }
     for (var i = 0; i < 60; i++){
       if (i < 10) i = '0' + i;
-      var option = {value: i, text: i};
+      var option = {value: i, text: i, key: Date.now() + '_' + i};
       minuteOptions.push(option);
     }
 
@@ -29,7 +29,7 @@ class TimeInput extends React.Component {
         <Form.Group widths='equal' style={{width: 320}}>
           <Form.Field>
             <label>{ this.props.label }</label>
-            <Dropdown fluid search selection placeholder='Hrs' options={testOptions} />
+            <Dropdown fluid search selection placeholder='Hrs' options={hourOptions} />
           </Form.Field>
           <Form.Field>
             <label style={{opacity: 0}}>PADDING</label>
