@@ -8,7 +8,8 @@ import './css/ParentBookChild.css';
 class ParentBookChild extends React.Component {
 
   state = {
-    childName: null,
+    childList: [],
+    childIndex: 0,
     appointmentSelectionList: []
   };
 
@@ -119,16 +120,11 @@ class ParentBookChild extends React.Component {
 
   componentDidMount() {
 
-    // TODO: Get child, get teachers data, get bookings data.
-
-    // Temporary START.
-    this.data['parent-id'] = 'parent1'
-    this.data['child-name'] = 'Logan Mack';
+    // TODO: Get child, get teachers data, get bookings data, get parent data (from token).
 
     this.setState({
-      childName: 'Logan Mack'
+      childList: this.props.params.childList
     });
-    // Temporary END.
   }
 
   render() {
@@ -136,7 +132,7 @@ class ParentBookChild extends React.Component {
     return (
       <ViewContainer>
 
-        <div>Book appointments for: {this.state.childName}</div>
+        <div>Book appointments for: {this.state.childList[this.state.childIndex]}</div>
 
         <Form>
           {this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection)}
