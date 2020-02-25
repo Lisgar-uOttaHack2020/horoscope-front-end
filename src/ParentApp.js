@@ -8,7 +8,7 @@ import './css/App.css';
 class ParentApp extends React.Component {
 
   state = {
-    view: 'parent / book child',
+    view: 'parent / register',
     paramsToPass: null,
     modalOpen: false,
     modalMessage: ''
