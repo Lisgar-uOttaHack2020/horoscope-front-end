@@ -13,5 +13,30 @@ const displayDate = (date) => {
   return (new Date(date)).toLocaleDateString('en-US', options);
 }
 
+const monthName = (month) => {
+
+  let names = [ undefined, 'January', 'February', 'March', 'April',
+      'May', 'June', 'July', 'August',
+      'September', 'October', 'November', 'December' ];
+  
+  return names[month];
+}
+
+const numberOfDays = (month, year) => {
+
+  let daysInMonth = [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+  let numberOfDays = daysInMonth[month];
+
+  if (month === 2) {
+    if (year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)) {
+      numberOfDays++;
+    }
+  }
+
+  return numberOfDays;
+}
+
 exports.displayTime = displayTime;
 exports.displayDate = displayDate;
+exports.monthName = monthName;
+exports.numberOfDays = numberOfDays;
