@@ -95,7 +95,7 @@ class ParentBookChild extends React.Component {
   renderChildSelectionList = () => {
 
     if (this.state.appointmentSelectionList.length === 0) {
-      return <p className='empty-list'>No appointments added.</p>;
+      return <p className='empty'>No appointments added.</p>;
     }
 
     return this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection);

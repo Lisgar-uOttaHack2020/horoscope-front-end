@@ -81,7 +81,7 @@ class ParentRegister extends React.Component {
   renderChildSelectionList = () => {
 
     if (this.state.childSelectionList.length === 0) {
-      return <p className='empty-list'>No children added.</p>;
+      return <p className='empty'>No children added.</p>;
     }
 
     return this.state.childSelectionList.map(childSelection => childSelection);
