@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Form, Icon, Button, Dropdown } from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import ViewContainer from './ViewContainer';
 import { displayDate, displayTime } from './utils/time';
 import { get, post } from './utils/request';
@@ -18,43 +19,8 @@ class ParentBookChild extends React.Component {
   data = {};
   bookingsObj = {};
 
-  // Temporary BEGIN.
   teachersData = [];
-  bookingsData = [
-    {
-      '_id': 'bd',
-      'parent-id': 'pa',
-      'teacher-id': 'ta',
-      'room': '109',
-      'date': '2020-03-26',
-      'time': { 'start': 700, 'end': 720 }
-    },
-    {
-      '_id': 'ba',
-      'parent-id': null,
-      'teacher-id': 'ta',
-      'room': '109',
-      'date': '2020-03-26',
-      'time': { 'start': 720, 'end': 740 }
-    },
-    {
-      '_id': 'bb',
-      'parent-id': null,
-      'teacher-id': 'ta',
-      'room': '109',
-      'date': '2020-03-27',
-      'time': { 'start': 740, 'end': 760 }
-    },
-    {
-      '_id': 'bc',
-      'parent-id': null,
-      'teacher-id': 'ta',
-      'room': '110',
-      'date': '2020-03-27',
-      'time': { 'start': 660, 'end': 680 }
-    },
-  ];
-  // Temporary END.
+  bookingsData = [];
 
   appointmentSelection_add = () => {
 
@@ -109,16 +75,20 @@ class ParentBookChild extends React.Component {
 
     // TODO: Get child, get teachers data, get bookings data, get parent data (from token).
 
-    let query = {
-      token: this.props.params.token
+    let getParentQuery = {
+      token: Cookies.get('parent-token')
     };
 
-    get('/parents', query,
-      json => { this.setState({ parentId: json._id, childList: json.children }); },
+    get('/parents', getParentQuery,
+      json => { this.setState({ parentId: json._id, childList: json.children }) },
       json => { this.props.displayModalMessageFunc(json.error) });
     
-    get('/teachers', query,
+    get('/teachers', {},
       json => { this.teachersData = json },
+      json => { this.props.displayModalMessageFunc(json.error)});
+
+    get('/bookings', {},
+      json => { this.bookingsData = json },
       json => { this.props.displayModalMessageFunc(json.error) });
   }
 
