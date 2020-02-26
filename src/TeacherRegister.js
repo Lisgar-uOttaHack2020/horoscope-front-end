@@ -36,8 +36,10 @@ class TeacherRegister extends React.Component {
         <div>Registration (teacher)</div>
 
         <Form>
-          <Form.Input label='First name' placeholder='First name' name='first-name' onChange={this.onFormChange} />
-          <Form.Input label='Last name' placeholder='Last name' name='last-name' onChange={this.onFormChange} />
+          <Form.Group widths='equal'>
+            <Form.Input label="First name" placeholder='First name' name='first-name' onChange={this.onFormChange} />
+            <Form.Input label="Last name" placeholder='Last name' name='last-name' onChange={this.onFormChange} />
+          </Form.Group>
           <Form.Input label='Email' placeholder='Email' name='email' onChange={this.onFormChange} />
           <Form.Input label='Password' placeholder='Password' name='password' type='password' onChange={this.onFormChange} />
           <Form.Input label='Confirm password' placeholder='Password' name='confirm-password' type='password' />

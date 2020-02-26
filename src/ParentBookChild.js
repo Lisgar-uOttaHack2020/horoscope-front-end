@@ -1,72 +1,26 @@
 
 import React from 'react';
 import { Form, Icon, Button, Dropdown } from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import ViewContainer from './ViewContainer';
 import { displayDate, displayTime } from './utils/time';
+import { get, post } from './utils/request';
 import './css/ParentBookChild.css';
 
 class ParentBookChild extends React.Component {
 
   state = {
-    childName: null,
+    parentId: null,
+    childList: [],
+    childIndex: 0,
     appointmentSelectionList: []
   };
 
   data = {};
   bookingsObj = {};
 
-  // Temporary BEGIN.
-  teachersData = [
-    {
-      '_id': 'ta',
-      'first-name': 'Nour',
-      'last-name': 'Harriz',
-      'email': 'nour.harriz@ocdsb.ca',
-      'bookings': [ 'a', 'b', 'c' ]
-    },
-    {
-      '_id': 'tb',
-      'first-name': 'Jeremy',
-      'last-name': 'Cheeseman',
-      'email': 'jeremy.cheeseman@ocdsb.ca',
-      'bookings': [ 'a', 'b', 'c' ]
-    },
-  ];
-  bookingsData = [
-    {
-      '_id': 'bd',
-      'parent-id': 'pa',
-      'teacher-id': 'ta',
-      'room': '109',
-      'date': '2020-03-26',
-      'time': { 'start': 700, 'end': 720 }
-    },
-    {
-      '_id': 'ba',
-      'parent-id': null,
-      'teacher-id': 'ta',
-      'room': '109',
-      'date': '2020-03-26',
-      'time': { 'start': 720, 'end': 740 }
-    },
-    {
-      '_id': 'bb',
-      'parent-id': null,
-      'teacher-id': 'ta',
-      'room': '109',
-      'date': '2020-03-27',
-      'time': { 'start': 740, 'end': 760 }
-    },
-    {
-      '_id': 'bc',
-      'parent-id': null,
-      'teacher-id': 'ta',
-      'room': '110',
-      'date': '2020-03-27',
-      'time': { 'start': 660, 'end': 680 }
-    },
-  ];
-  // Temporary END.
+  teachersData = [];
+  bookingsData = [];
 
   appointmentSelection_add = () => {
 
@@ -119,16 +73,23 @@ class ParentBookChild extends React.Component {
 
   componentDidMount() {
 
-    // TODO: Get child, get teachers data, get bookings data.
+    // TODO: Get child, get teachers data, get bookings data, get parent data (from token).
 
-    // Temporary START.
-    this.data['parent-id'] = 'parent1'
-    this.data['child-name'] = 'Logan Mack';
+    let getParentQuery = {
+      token: Cookies.get('parent-token')
+    };
 
-    this.setState({
-      childName: 'Logan Mack'
-    });
-    // Temporary END.
+    get('/parents', getParentQuery,
+      json => { this.setState({ parentId: json._id, childList: json.children }) },
+      json => { this.props.displayModalMessageFunc(json.error) });
+    
+    get('/teachers', {},
+      json => { this.teachersData = json },
+      json => { this.props.displayModalMessageFunc(json.error)});
+
+    get('/bookings', {},
+      json => { this.bookingsData = json },
+      json => { this.props.displayModalMessageFunc(json.error) });
   }
 
   render() {
@@ -136,7 +97,7 @@ class ParentBookChild extends React.Component {
     return (
       <ViewContainer>
 
-        <div>Book appointments for: {this.state.childName}</div>
+        <div>Book appointments for: {this.state.childList[this.state.childIndex]}</div>
 
         <Form>
           {this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection)}

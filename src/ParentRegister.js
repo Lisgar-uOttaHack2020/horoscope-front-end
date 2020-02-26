@@ -1,8 +1,10 @@
 
 import React from 'react';
 import { Form, Button, Input, Icon } from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import ViewContainer from './ViewContainer';
 import queryString from 'query-string';
+import { post } from './utils/request';
 import './css/ParentRegister.css';
 
 class ParentRegister extends React.Component {
@@ -62,14 +64,18 @@ class ParentRegister extends React.Component {
       }
     }
 
-    // TODO: Transition into Parent / Book Child.
-    console.log(this.data); // Temporary.
+    post('/parents/register', this.data,
+      json => {
+        Cookies.set('parent-token', json.token);
+        this.props.changeViewFunc('parent / book child', null);
+      },
+      json => { this.props.displayModalMessageFunc(json.error) });
   }
 
   componentDidMount() {
 
     // Get code from URL.
-    this.data.code = queryString.parse(this.props.location.search).code;
+    this.data['security-key'] = queryString.parse(this.props.location.search).code;
   }
 
   render() {
@@ -80,7 +86,10 @@ class ParentRegister extends React.Component {
         <div>Registration</div>
 
         <Form>
-          <Form.Input label="Full name" placeholder='Full name' name='name' onChange={this.onFormChange} />
+          <Form.Group widths='equal'>
+            <Form.Input label="First name" placeholder='First name' name='first-name' onChange={this.onFormChange} />
+            <Form.Input label="Last name" placeholder='Last name' name='last-name' onChange={this.onFormChange} />
+          </Form.Group>
           <Form.Input label="Email" placeholder='Email' name='email' onChange={this.onFormChange} />
           <Form.Field>
             <label>Children</label>
