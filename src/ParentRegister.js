@@ -64,18 +64,8 @@ class ParentRegister extends React.Component {
     }
 
     post('/parents/register', this.data,
-    (json) => {
-      
-      this.props.changeViewFunc('parent / book child', {
-        token: json.token,
-        childList: this.data.children
-      });
-    },
-    (json) => {
-      this.props.displayModalMessageFunc(json.error);
-    });
-
-    console.log(this.data); // Temporary.
+      json => { this.props.changeViewFunc('parent / book child', { token: json.token }) },
+      json => { this.props.displayModalMessageFunc(json.error) });
   }
 
   componentDidMount() {

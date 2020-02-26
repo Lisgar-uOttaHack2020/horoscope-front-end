@@ -1,5 +1,6 @@
 
 const fetch = require('node-fetch');
+const queryString = require('querystring');
 
 const send = (src, args, successFunc, failFunc) => {
 
@@ -24,11 +25,13 @@ const send = (src, args, successFunc, failFunc) => {
   });
 }
 
-const get = (src, successFunc, failFunc) => {
+const get = (src, query, successFunc, failFunc) => {
 
   let args = {
     method: 'get'
   };
+
+  src += '?' + queryString.stringify(query);
 
   return send(src, args, successFunc, failFunc);
 }
