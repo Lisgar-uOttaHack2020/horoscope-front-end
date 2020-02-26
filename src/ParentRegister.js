@@ -78,6 +78,15 @@ class ParentRegister extends React.Component {
     this.data['security-key'] = queryString.parse(this.props.location.search).code;
   }
 
+  renderChildSelectionList = () => {
+
+    if (this.state.childSelectionList.length === 0) {
+      return <p className='empty-list'>No children added.</p>;
+    }
+
+    return this.state.childSelectionList.map(childSelection => childSelection);
+  }
+
   render() {
 
     return (
@@ -93,9 +102,7 @@ class ParentRegister extends React.Component {
           <Form.Input label="Email" placeholder='Email' name='email' onChange={this.onFormChange} />
           <Form.Field>
             <label>Children</label>
-            <div id='child-selection-list'>
-              {this.state.childSelectionList.map(childSelection => childSelection)}
-            </div>
+            <div id='child-selection-list'>{ this.renderChildSelectionList() }</div>
           </Form.Field>
         </Form>
 
