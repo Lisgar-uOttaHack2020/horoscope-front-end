@@ -28,3 +28,9 @@ footer > .highlight {
   /*border-color: rgb(118, 118, 118) !important;*/
   border-color: rgb(172, 172, 172) !important;
 }
+
+.empty-list {
+
+  text-align: center;
+  color: #808080;
+}

@@ -92,6 +92,15 @@ class ParentBookChild extends React.Component {
       json => { this.props.displayModalMessageFunc(json.error) });
   }
 
+  renderChildSelectionList = () => {
+
+    if (this.state.appointmentSelectionList.length === 0) {
+      return <p className='empty-list'>No appointments added.</p>;
+    }
+
+    return this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection);
+  }
+
   render() {
 
     return (
@@ -99,9 +108,7 @@ class ParentBookChild extends React.Component {
 
         <div>Book appointments for: {this.state.childList[this.state.childIndex]}</div>
 
-        <Form>
-          {this.state.appointmentSelectionList.map(appointmentSelection => appointmentSelection)}
-        </Form>
+        <Form>{ this.renderChildSelectionList() }</Form>
 
         <Form>
           <Form.Button icon labelPosition='left' fluid positive onClick={this.appointmentSelection_add}>
