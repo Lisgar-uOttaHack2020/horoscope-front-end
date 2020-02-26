@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Form, Button, Input, Icon } from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import ViewContainer from './ViewContainer';
 import queryString from 'query-string';
 import { post } from './utils/request';
@@ -64,7 +65,10 @@ class ParentRegister extends React.Component {
     }
 
     post('/parents/register', this.data,
-      json => { this.props.changeViewFunc('parent / book child', { token: json.token }) },
+      json => {
+        Cookies.set('parent-token', json.token);
+        this.props.changeViewFunc('parent / book child', null);
+      },
       json => { this.props.displayModalMessageFunc(json.error) });
   }
 
