@@ -3,11 +3,13 @@ import React from 'react';
 import { Form, Icon, Button, Dropdown } from 'semantic-ui-react';
 import ViewContainer from './ViewContainer';
 import { displayDate, displayTime } from './utils/time';
+import { get, post } from './utils/request';
 import './css/ParentBookChild.css';
 
 class ParentBookChild extends React.Component {
 
   state = {
+    parentId: null,
     childList: [],
     childIndex: 0,
     appointmentSelectionList: []
@@ -17,22 +19,7 @@ class ParentBookChild extends React.Component {
   bookingsObj = {};
 
   // Temporary BEGIN.
-  teachersData = [
-    {
-      '_id': 'ta',
-      'first-name': 'Nour',
-      'last-name': 'Harriz',
-      'email': 'nour.harriz@ocdsb.ca',
-      'bookings': [ 'a', 'b', 'c' ]
-    },
-    {
-      '_id': 'tb',
-      'first-name': 'Jeremy',
-      'last-name': 'Cheeseman',
-      'email': 'jeremy.cheeseman@ocdsb.ca',
-      'bookings': [ 'a', 'b', 'c' ]
-    },
-  ];
+  teachersData = [];
   bookingsData = [
     {
       '_id': 'bd',
@@ -122,9 +109,17 @@ class ParentBookChild extends React.Component {
 
     // TODO: Get child, get teachers data, get bookings data, get parent data (from token).
 
-    this.setState({
-      childList: this.props.params.childList
-    });
+    let query = {
+      token: this.props.params.token
+    };
+
+    get('/parents', query,
+      json => { this.setState({ parentId: json._id, childList: json.children }); },
+      json => { this.props.displayModalMessageFunc(json.error) });
+    
+    get('/teachers', query,
+      json => { this.teachersData = json },
+      json => { this.props.displayModalMessageFunc(json.error) });
   }
 
   render() {
