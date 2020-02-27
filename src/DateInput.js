@@ -7,39 +7,58 @@ import './css/DateTimeInput.css';
 
 class DateInput extends React.Component {
 
-  constructor (props) {
-
-    super(props);
-  }
-
   state = {
     year: null,
     month: null,
-    day: null,
+    date: null,
     yearOptions: null,
     monthOptions: null,
     dateOptions: null
   }
 
+  formatInput = () => {
+
+    if (this.state.year === null || this.state.month === null || this.state.date === null) {
+      return {
+        name: this.props.name,
+        value: null
+      };
+    }
+
+    let formatMonth = this.state.month < 10 ? '0' + this.state.month : this.state.month;
+    let formatDate  = this.state.date  < 10 ? '0' + this.state.date  : this.state.date;
+
+    return {
+      name: this.props.name,
+      value: this.state.year + '-' + formatMonth + '-' + formatDate
+    };
+  }
+
+  onChange = () => {
+
+    this.props.onChange("I don't know what 'e' is...", this.formatInput());
+  }
+
   selectYear = (e, { value }) => {
+
     this.setState({
       year: value
-    });
+    }, () => { this.onChange() });
   }
 
   selectMonth = (e, { value }) => {
     
     this.setState({
       month: value,
-      day: null,
+      date: null,
       dateOptions: range(1, numberOfDays(value, this.state.year)).map(i => ({ key: Date.now() + '_' + i, value: i, text: i }))
-    });
+    }, () => { this.onChange() });
   }
 
-  selectDay = (e, { value }) => {
+  selectDate = (e, { value }) => {
     this.setState({
-      day: value
-    });
+      date: value
+    }, () => { this.onChange() });
   }
 
   componentDidMount() {
@@ -47,7 +66,7 @@ class DateInput extends React.Component {
     this.setState({
       yearOptions:  range(2020, 2025).map(i => ({ key: Date.now() + '_' + i, value: i, text: i })),
       monthOptions: range(   1,   12).map(i => ({ key: Date.now() + '_' + i, value: i, text: monthName(i) }))
-    })
+    });
   }
 
   render() {
@@ -80,8 +99,8 @@ class DateInput extends React.Component {
           <span className='spacer'>/</span>
           <Dropdown fluid search selection placeholder='Day'
             options={this.state.dateOptions}
-            value={this.state.day}
-            onChange={this.selectDay}
+            value={this.state.date}
+            onChange={this.selectDate}
             disabled={!this.state.month}
           />
         </div>

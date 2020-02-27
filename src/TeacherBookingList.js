@@ -130,9 +130,15 @@ class TeacherBookingList extends React.Component {
             <Header content='Create new appointment' />
             <Modal.Content>
               <Form>
-                <DateInput label="Date" />
-                <TimeInput label="Start time" />  {/* For start-time */}
-                <TimeInput label="End time" />  {/* For end-time */}
+                <DateInput label='Date' name='date'
+                  onChange={this.onFormChange}
+                />
+                <TimeInput label='Start time' name='start-time'
+                  onChange={this.onFormChange}
+                />
+                <TimeInput label='End time' name='end-time'
+                  onChange={this.onFormChange}
+                />
                 <Form.Input label='Room' placeholder='Room number' name='room'
                   onChange={this.onFormChange}
                 />
