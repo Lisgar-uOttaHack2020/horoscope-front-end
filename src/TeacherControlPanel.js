@@ -5,7 +5,7 @@ import TimeInput from './TimeInput';
 import DateInput from './DateInput';
 import ViewContainer from './ViewContainer';
 import { displayTime, displayDate } from './utils/time';
-import './css/TeacherBookingList.css';
+import './css/TeacherControlPanel.css';
 
 class TeacherBookingList extends React.Component {
 

@@ -5,7 +5,7 @@ import ViewContainer from './ViewContainer';
 import queryString from 'query-string';
 import './css/ParentRegister.css';
 
-class TeacherRegister extends React.Component {
+class TeacherControlPanel extends React.Component {
 
   // Tracks data to be sent for the register request.
   data = {};
@@ -56,4 +56,4 @@ class TeacherRegister extends React.Component {
   }
 }
 
-export default TeacherRegister;
+export default TeacherControlPanel;

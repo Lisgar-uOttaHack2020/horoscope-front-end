@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, Button, Message } from 'semantic-ui-react';
 import TeacherRegister from './TeacherRegister';
-import TeacherBookingList from './TeacherBookingList';
+import TeacherControlPanel from './TeacherControlPanel';
 import './css/App.css';
 
 class TeacherApp extends React.Component {
@@ -51,7 +51,7 @@ class TeacherApp extends React.Component {
     }
 
     else if (this.state.view === 'teacher / booking list') {
-      viewWidget = <TeacherBookingList
+      viewWidget = <TeacherControlPanel
         location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
