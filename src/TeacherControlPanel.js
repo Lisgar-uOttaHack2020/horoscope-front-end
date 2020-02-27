@@ -242,8 +242,13 @@ class TimeSlot extends React.Component {
 
     const getAttrText = (val) => (val ? val : <span className='empty'>TBD</span>);
 
+    let border = '2px solid #e2e2e2';
+    if (!this.state['start-time'] || !this.state['end-time'] || !this.state.student || !this.state.room) {
+      border = '2px dashed #ffa1a1';
+    }
+
     return <>
-      <div className='booking-time-slot'>
+      <div className='booking-time-slot' style={{border: border}}>
         <div className='definitions'>
           <div>Time</div>
           <div>{ displayTime(this.state['start-time']) } to { displayTime(this.state['end-time']) }</div>
