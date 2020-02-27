@@ -67,7 +67,7 @@ class ParentRegister extends React.Component {
     post('/parents/register', this.data,
       json => {
         Cookies.set('parent-token', json.token);
-        this.props.changeViewFunc('parent / book child', null);
+        this.props.changeViewFunc('parent / book child');
       },
       json => { this.props.displayModalMessageFunc(json.error) });
   }

@@ -9,16 +9,14 @@ class ParentApp extends React.Component {
 
   state = {
     view: 'parent / register',
-    paramsToPass: null,
     modalOpen: false,
     modalMessage: ''
   };
 
-  changeView = (newView, newParams) => {
+  changeView = (newView) => {
 
     this.setState({
       view: newView,
-      paramsToPass: newParams
     });
   }
 
@@ -46,7 +44,6 @@ class ParentApp extends React.Component {
         location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
-        params={this.state.paramsToPass}
       />;
     }
 
@@ -55,7 +52,6 @@ class ParentApp extends React.Component {
         location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
-        params={this.state.paramsToPass}
       />;
     }
 

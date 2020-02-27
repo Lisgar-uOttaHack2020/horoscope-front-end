@@ -17,7 +17,7 @@ class TeacherControlPanel extends React.Component {
 
   nextScreen = () => {
 
-    this.props.changeViewFunc('teacher / booking list', null);
+    this.props.changeViewFunc('teacher / booking list');
 
     console.log(this.data);
   }

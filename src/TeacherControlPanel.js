@@ -78,6 +78,10 @@ class TeacherBookingList extends React.Component {
 
   renderTimeSlots = () => {
 
+    if (this.state.timeSlotList.length === 0) {
+      return <p className='empty'>No appointments added.</p>;
+    }
+
     // Sort by date, then by time.
     const sortChronologicalFunc = (a, b) => {
 
