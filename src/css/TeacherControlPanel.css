@@ -3,7 +3,9 @@
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-gap: 16px;
+  grid-column-gap: 16px;
+  grid-row-gap: 24px;
+  margin-top: 24px;
 }
 
 .booking-time-slot {
@@ -13,7 +15,6 @@
 
   width: 100%;
   padding: 16px;
-  margin: 16px 8px;
 }
 
 .booking-time-slot .definitions {
