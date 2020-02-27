@@ -71,25 +71,19 @@ class ParentBookChild extends React.Component {
     console.log(this.data); // Temporary.
   }
 
-  componentDidMount() {
+  async componentDidMount() {
 
-    // TODO: Get child, get teachers data, get bookings data, get parent data (from token).
+    try {
+      
+      let parentsQuery  = await get('/parents',  { token: Cookies.get('parent-token') });
+      let teachersQuery = await get('/teachers', {});
+      let bookingsQuery = await get('/bookings', {});
 
-    let getParentQuery = {
-      token: Cookies.get('parent-token')
-    };
-
-    get('/parents', getParentQuery,
-      json => { this.setState({ parentId: json._id, childList: json.children }) },
-      json => { this.props.displayModalMessageFunc(json.error) });
-    
-    get('/teachers', {},
-      json => { this.teachersData = json },
-      json => { this.props.displayModalMessageFunc(json.error)});
-
-    get('/bookings', {},
-      json => { this.bookingsData = json },
-      json => { this.props.displayModalMessageFunc(json.error) });
+      this.setState({ parentId: parentsQuery._id, childList: parentsQuery.children });
+      this.teachersData = teachersQuery;
+      this.bookingsData = bookingsQuery;
+      
+    } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
 
   renderChildSelectionList = () => {

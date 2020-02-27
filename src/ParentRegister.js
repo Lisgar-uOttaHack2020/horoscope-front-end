@@ -54,22 +54,29 @@ class ParentRegister extends React.Component {
     this.childrenObj[index] = newVal;
   }
 
-  nextScreen = () => {
+  nextScreen = async () => {
 
-    // Generate data.children by converting childrenObj from an object to an array.
-    this.data.children = [];
-    for (let key in this.childrenObj) {
-      if (this.childrenObj.hasOwnProperty(key)) {
-        this.data.children.push(this.childrenObj[key]);
+    await new Promise(resolve => {
+
+      // Generate data.children by converting childrenObj from an object to an array.
+      
+      this.data.children = [];
+      for (let key in this.childrenObj) {
+        if (this.childrenObj.hasOwnProperty(key)) {
+          this.data.children.push(this.childrenObj[key]);
+        }
       }
-    }
+      resolve();
+    });
 
-    post('/parents/register', this.data,
-      json => {
-        Cookies.set('parent-token', json.token);
-        this.props.changeViewFunc('parent / book child');
-      },
-      json => { this.props.displayModalMessageFunc(json.error) });
+    try {
+      
+      let registerQuery = await post('/parents/register', this.data);
+
+      Cookies.set('parent-token', registerQuery.token);
+      this.props.changeViewFunc('parent / book child');
+      
+    } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
 
   componentDidMount() {

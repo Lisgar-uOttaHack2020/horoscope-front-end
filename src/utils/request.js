@@ -2,30 +2,25 @@
 const fetch = require('node-fetch');
 const queryString = require('querystring');
 
-const send = (src, args, successFunc, failFunc) => {
+const send = (src, args) => {
 
-  let invalid = false;
+  return new Promise((resolve, reject) => {
+    
+    let invalid = false;
 
-  fetch(src, args)
-  .then(res => {
-
-    if (res.status !== 200) {
-      invalid = true;
-    }
-    return res.json();
-  })
-  .then(json => {
-
-    if (invalid) {
-      failFunc(json);
-    }
-    else {
-      successFunc(json);
-    }
+    fetch(src, args)
+      .then(res => {
+        if (res.status !== 200) invalid = true;
+        return res.json();
+      })
+      .then(json => {
+        if (invalid) reject(json);
+        else resolve(json);
+      });
   });
 }
 
-const get = (src, query, successFunc, failFunc) => {
+const get = (src, query) => {
 
   let args = {
     method: 'get'
@@ -33,10 +28,10 @@ const get = (src, query, successFunc, failFunc) => {
 
   src += '?' + queryString.stringify(query);
 
-  return send(src, args, successFunc, failFunc);
+  return send(src, args);
 }
 
-const post = (src, body, successFunc, failFunc) => {
+const post = (src, body) => {
 
   let args = {
     method: 'post',
@@ -44,7 +39,7 @@ const post = (src, body, successFunc, failFunc) => {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  return send(src, args, successFunc, failFunc);
+  return send(src, args);
 }
 
 exports.get = get;
