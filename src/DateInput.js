@@ -3,6 +3,7 @@ import React from 'react';
 import { Dropdown, Form } from 'semantic-ui-react';
 import { range } from './utils/funcs';
 import { monthName, numberOfDays } from './utils/time';
+import './css/DateTimeInput.css';
 
 class DateInput extends React.Component {
 
@@ -22,10 +23,7 @@ class DateInput extends React.Component {
 
   selectYear = (e, { value }) => {
     this.setState({
-      year: value,
-      month: null,
-      day: null,
-      dateOptions: null
+      year: value
     });
   }
 
@@ -65,34 +63,29 @@ class DateInput extends React.Component {
     */
 
     return (
-      <Form.Group widths='equal' style={{width: 400}}>
-        <Form.Field>
-          <label>{ this.props.label }</label>
+      <Form.Field className='date-input'>
+        <label>{this.props.label}</label>
+        <div>
           <Dropdown fluid search selection placeholder='Year'
             options={this.state.yearOptions}
             value={this.state.year}
             onChange={this.selectYear}
           />
-        </Form.Field>
-        <Form.Field>
-          <label style={{opacity: 0}}>_</label>
+          <span className='spacer'>/</span>
           <Dropdown fluid search selection placeholder='Month'
             options={this.state.monthOptions}
             value={this.state.month}
             onChange={this.selectMonth}
-            disabled={!this.state.year}
           />
-        </Form.Field>
-        <Form.Field>
-          <label style={{opacity: 0}}>_</label>
+          <span className='spacer'>/</span>
           <Dropdown fluid search selection placeholder='Day'
             options={this.state.dateOptions}
             value={this.state.day}
             onChange={this.selectDay}
             disabled={!this.state.month}
           />
-        </Form.Field>
-      </Form.Group>
+        </div>
+      </Form.Field>
     );
   }
 }

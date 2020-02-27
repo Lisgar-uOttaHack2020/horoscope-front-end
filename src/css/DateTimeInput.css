@@ -1,0 +1,23 @@
+
+.date-input > div {
+
+  display: grid;
+  grid-template-columns: 1fr 0 1fr 0 1fr;
+  grid-column-gap: 14px;
+}
+
+.time-input > div {
+
+  display: grid;
+  grid-template-columns: 1fr 0 1fr 0 1fr;
+  grid-column-gap: 14px;
+}
+
+.date-input .spacer, .time-input .spacer {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}

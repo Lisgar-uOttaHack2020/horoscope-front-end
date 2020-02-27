@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Dropdown, Form } from 'semantic-ui-react';
+import './css/DateTimeInput.css';
 
 class TimeInput extends React.Component {
   constructor (props){
@@ -25,22 +26,16 @@ class TimeInput extends React.Component {
     }
 
     return (
-      <>
-        <Form.Group widths='equal' style={{width: 320}}>
-          <Form.Field>
-            <label>{ this.props.label }</label>
-            <Dropdown fluid search selection placeholder='Hrs' options={hourOptions} />
-          </Form.Field>
-          <Form.Field>
-            <label style={{opacity: 0}}>PADDING</label>
-            <Dropdown fluid search selection placeholder='Mins' options={minuteOptions} />
-          </Form.Field>
-          <Form.Field>
-            <label style={{opacity: 0}}>PADDING</label>
-            <Dropdown fluid search selection placeholder='AM/PM' options={[{value: 'AM', text: 'AM'},{value: 'PM', text: 'PM'}]} />
-          </Form.Field>
-        </Form.Group>
-      </>
+      <Form.Field className='time-input'>
+        <label>{this.props.label}</label>
+        <div>
+          <Dropdown fluid search selection placeholder='Hrs' options={hourOptions} />
+          <span className='spacer'>:</span>
+          <Dropdown fluid search selection placeholder='Mins' options={minuteOptions} />
+          <span className='spacer'></span>
+          <Dropdown fluid search selection placeholder='AM/PM' options={[{value: 'AM', text: 'AM'},{value: 'PM', text: 'PM'}]} />
+        </div>
+      </Form.Field>
     );
   }
 }
