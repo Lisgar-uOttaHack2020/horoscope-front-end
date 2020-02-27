@@ -5,9 +5,13 @@ import TimeInput from './TimeInput';
 import DateInput from './DateInput';
 import ViewContainer from './ViewContainer';
 import { displayTime, displayDate } from './utils/time';
+import { get, post } from './utils/request';
 import './css/TeacherControlPanel.css';
 
 class TeacherBookingList extends React.Component {
+
+  tempToken = 'c99c492b2bb6c81c977c505a7f3adfd98f92a5819b5a00c8ab18c453d4f9ae11f144c68a45f064077cfc49790fa13d583f3c03e9ae5732af2e19dc38d6ab23a3';
+  tempTeacherId = '5e580b4982a5090024e3e118';
 
   state = {
     timeSlotList: [],
@@ -27,53 +31,63 @@ class TeacherBookingList extends React.Component {
     this.tempForm[name] = value;
   }
 
-  timeSlot_add = () => {
+  timeSlot_add = async () => {
+
+    try {
+
+      await post('/bookings/teacher', {
+        token: this.tempToken,
+        bookings: [{
+          room: this.tempForm.room,
+          date: this.tempForm.date,
+          time: {
+            start: this.tempForm['start-time'],
+            end: this.tempForm['end-time']
+          }
+        }]
+      });
+
+      this.refreshTimeSlots();
+      this.closeModal();
     
-    let tempList = this.state.timeSlotList.slice();
-
-    tempList.push(
-      <TimeSlot key={Date.now()} index={Date.now()}
-        date={this.tempForm['date']}
-        start-time={parseInt(this.tempForm['start-time'])}
-        end-time={parseInt(this.tempForm['end-time'])}
-        room={this.tempForm['room']}
-        deleteFunc={this.timeSlot_delete}
-      />
-    );
-
-    this.setState({ timeSlotList: tempList });
-    this.closeModal();
+    } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
 
   timeSlot_delete = (index) => {
     
-    let tempList = this.state.timeSlotList.slice();
+    // TODO: Delete booking with endpoint.
+  }
 
-    tempList.forEach((timeSlot, i) => {
-      if (timeSlot.props.index === index) {
-        tempList.splice(i, 1);
-      }
-    });
+  refreshTimeSlots = async () => {
 
-    this.setState({ timeSlotList: tempList });
+    try {
+      
+      // TODO: Clean up after bookingsQuery accepts a teacher token.
+
+      let bookingsQuery = await get('/bookings', {});
+
+      let filteredTimeSlots = await new Promise(resolve => {
+        resolve(bookingsQuery.filter(booking => (booking['teacher-id'] === this.tempTeacherId)));
+      });
+
+      this.setState({
+        timeSlotList: filteredTimeSlots.map(timeSlot => (
+          <TimeSlot key={timeSlot._id} index={timeSlot._id}
+            date={timeSlot.date}
+            start-time={timeSlot.time.start}
+            end-time={timeSlot.time.end}
+            room={timeSlot.room}
+            deleteFunc={this.timeSlot_delete}
+          />
+        ))
+      });
+      
+    } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
 
   componentDidMount() {
 
-    // TODO: Remove this part.
-
-    this.setState({
-      timeSlotList: [
-        <TimeSlot key={'1'} index={'1'} date='2020-03-26' start-time={840} end-time={900} student='Emily Yu' room='109' deleteFunc={this.timeSlot_delete} />,
-        <TimeSlot key={'11'} index={'11'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
-        <TimeSlot key={'12'} index={'12'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
-        <TimeSlot key={'13'} index={'13'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
-        <TimeSlot key={'14'} index={'14'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
-        <TimeSlot key={'15'} index={'15'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
-        <TimeSlot key={'2'} index={'2'} date='2020-03-27' start-time={810} end-time={870} student='Max Huang' room='150' deleteFunc={this.timeSlot_delete} />,
-        <TimeSlot key={'3'} index={'3'} date='2020-03-26' start-time={780} end-time={840} student='Logan Mack' room='109' deleteFunc={this.timeSlot_delete} />
-      ]
-    });
+    this.refreshTimeSlots();
   }
 
   renderTimeSlots = () => {
@@ -202,8 +216,6 @@ class TimeSlot extends React.Component {
 
   applyEdits = () => {
 
-    Object.assign(this.state, this.tempForm);
-
     // TODO: Modify booking with endpoint.
 
     console.log(this.state);  // Temporary.
@@ -211,8 +223,6 @@ class TimeSlot extends React.Component {
   }
 
   onDelete = () => {
-
-    // TODO: Delete booking with endpoint.
 
     this.props.deleteFunc(this.props.index);
   }
