@@ -24,11 +24,12 @@ class TimeInput extends React.Component {
       };
     }
 
+    let hour = (this.state.hour === 12 ? 0 : this.state.hour);
     let amPmOffset = (this.state.amPm === 'PM' ? 12 * 60 : 0);
 
     return {
       name: this.props.name,
-      value: this.state.hour * 60 + this.state.minute + amPmOffset
+      value: hour * 60 + this.state.minute + amPmOffset
     };
   }
 
