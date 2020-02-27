@@ -37,7 +37,6 @@ class TeacherBookingList extends React.Component {
         start-time={parseInt(this.tempForm['start-time'])}
         end-time={parseInt(this.tempForm['end-time'])}
         room={this.tempForm['room']}
-        student='Empty'
         deleteFunc={this.timeSlot_delete}
       />
     );
@@ -66,6 +65,11 @@ class TeacherBookingList extends React.Component {
     this.setState({
       timeSlotList: [
         <TimeSlot key={'1'} index={'1'} date='2020-03-26' start-time={840} end-time={900} student='Emily Yu' room='109' deleteFunc={this.timeSlot_delete} />,
+        <TimeSlot key={'11'} index={'11'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
+        <TimeSlot key={'12'} index={'12'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
+        <TimeSlot key={'13'} index={'13'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
+        <TimeSlot key={'14'} index={'14'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
+        <TimeSlot key={'15'} index={'15'} date='2020-03-26' start-time={840} end-time={900} deleteFunc={this.timeSlot_delete} />,
         <TimeSlot key={'2'} index={'2'} date='2020-03-27' start-time={810} end-time={870} student='Max Huang' room='150' deleteFunc={this.timeSlot_delete} />,
         <TimeSlot key={'3'} index={'3'} date='2020-03-26' start-time={780} end-time={840} student='Logan Mack' room='109' deleteFunc={this.timeSlot_delete} />
       ]
@@ -207,8 +211,8 @@ class TimeSlot extends React.Component {
 
     // Fetch booking parameters from props.
     this.setState({
-      'start-time': displayTime(this.props['start-time']),
-      'end-time': displayTime(this.props['end-time']),
+      'start-time': this.props['start-time'],
+      'end-time': this.props['end-time'],
       'room': this.props['room'],
       'student': this.props['student']
     });
@@ -216,17 +220,17 @@ class TimeSlot extends React.Component {
 
   render() {
 
-    // <></> allow for returning a list of components without a wrapper.
-    return <>
+    const getAttrText = (val) => (val ? val : <span className='empty'>TBD</span>);
 
+    return <>
       <div className='booking-time-slot'>
         <div className='definitions'>
           <div>Time</div>
-          <div>{this.state['start-time']} to {this.state['end-time']}</div>
+          <div>{ displayTime(this.state['start-time']) } to { displayTime(this.state['end-time']) }</div>
           <div>Student</div>
-          <div>{this.state.student}</div>
+          <div>{ getAttrText(this.state.student) }</div>
           <div>Room</div>
-          <div>{this.state.room}</div>
+          <div>{ getAttrText(this.state.room) }</div>
         </div>
         <Grid columns={2}>
           <Grid.Row>
@@ -259,7 +263,6 @@ class TimeSlot extends React.Component {
           </Button>
         </Modal.Actions>
       </Modal>
-
     </>;
   }
 }

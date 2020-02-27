@@ -6,13 +6,13 @@ import './css/ViewContainer.css';
 class ViewContainer extends React.Component {
 
   state = {
-    maxBodyHeight: 0
+    bodyHeight: 0
   }
 
   componentDidMount() {
 
     this.setState({
-      bodyMaxHeight:
+      bodyHeight:
         'calc(100vh - 141px - 8px - ' /* 141px = height of footer + height of padding, 8px for buffer */
           + document.querySelector('#header-segment').clientHeight + 'px - '
           + document.querySelector('#footer-segment').clientHeight + 'px)'
@@ -37,7 +37,7 @@ class ViewContainer extends React.Component {
           <Segment id='header-segment'>
             <Header as='h2'>{header}</Header>
           </Segment>
-          <Segment style={{maxHeight: this.state.bodyMaxHeight, overflowY: 'auto'}}>{body}</Segment>
+          <Segment style={{height: this.state.bodyHeight, overflowY: 'auto'}}>{body}</Segment>
           <Segment id='footer-segment'>{footer}</Segment>
         </Segment.Group>
       </div>
