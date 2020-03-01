@@ -34,3 +34,19 @@ footer > .highlight {
   text-align: center;
   color: #808080;
 }
+
+.link-button {
+
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  color:#4183c4;
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.link-button:hover {
+
+  color: #1e70bf;
+}
