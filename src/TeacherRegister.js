@@ -43,6 +43,7 @@ class TeacherControlPanel extends React.Component {
           <Form.Input label='Email' placeholder='Email' name='email' onChange={this.onFormChange} />
           <Form.Input label='Password' placeholder='Password' name='password' type='password' onChange={this.onFormChange} />
           <Form.Input label='Confirm password' placeholder='Password' name='confirm-password' type='password' />
+          <a onClick={() => {this.props.changeViewFunc('teacher / login')}}>Already have an account?</a>
         </Form>
 
         <Form>

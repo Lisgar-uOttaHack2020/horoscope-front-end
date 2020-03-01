@@ -2,13 +2,14 @@
 import React from 'react';
 import { Modal, Button, Message } from 'semantic-ui-react';
 import TeacherRegister from './TeacherRegister';
+import TeacherLogin from './TeacherLogin';
 import TeacherControlPanel from './TeacherControlPanel';
 import './css/App.css';
 
 class TeacherApp extends React.Component {
 
   state = {
-    view: 'teacher / booking list',
+    view: 'teacher / login',
     modalOpen: false,
     modalMessage: ''
   };
@@ -41,6 +42,14 @@ class TeacherApp extends React.Component {
 
     if (this.state.view === 'teacher / register') {
       viewWidget = <TeacherRegister
+        location={this.props.location}
+        changeViewFunc={this.changeView}
+        displayModalMessageFunc={this.displayMessage}
+      />;
+    }
+
+    if (this.state.view === 'teacher / login') {
+      viewWidget = <TeacherLogin
         location={this.props.location}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}

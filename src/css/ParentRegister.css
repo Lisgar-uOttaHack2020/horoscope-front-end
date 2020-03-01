@@ -9,3 +9,7 @@
 
   margin-left: 8px;
 }
+
+a:hover {
+  cursor: pointer;
+}
