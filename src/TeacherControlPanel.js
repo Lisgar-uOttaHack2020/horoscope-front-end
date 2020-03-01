@@ -60,10 +60,8 @@ class TeacherBookingList extends React.Component {
 
     try {
 
-      let loginQuery = await post('/teachers/login', { email: 'nour.harriz@ocdsb.ca', password: 'password' });
-      let bookingsQuery = await get('/bookings', { 'teacher-token': loginQuery.token });
+      let bookingsQuery = await get('/bookings', { 'teacher-token': Cookies.get('teacher-token') });
 
-      Cookies.set('parent-token', loginQuery.token);
       this.setState({
         timeSlotList: bookingsQuery.map(timeSlot => (
           <TimeSlot key={timeSlot._id} index={timeSlot._id}

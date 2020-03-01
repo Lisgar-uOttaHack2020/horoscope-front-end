@@ -15,13 +15,13 @@ class TeacherLogin extends React.Component {
     this.data[name] = value;
   }
 
-  nextScreen = () => {
+  nextScreen = async () => {
 
     try {
       
-      let registerQuery = await post('/teachers/register', this.data);
+      let loginQuery = await post('/teachers/login', this.data);
 
-      Cookies.set('teacher-token', registerQuery.token);
+      Cookies.set('teacher-token', loginQuery.token);
       this.props.changeViewFunc('teacher / booking list');
       
     } catch (json) { this.props.displayModalMessageFunc(json.error) }
