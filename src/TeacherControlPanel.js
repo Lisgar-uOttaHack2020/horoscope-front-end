@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Header, Form, Button, Modal, Icon, Grid, List } from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import TimeInput from './TimeInput';
 import DateInput from './DateInput';
 import ViewContainer from './ViewContainer';
@@ -9,9 +10,6 @@ import { get, post } from './utils/request';
 import './css/TeacherControlPanel.css';
 
 class TeacherBookingList extends React.Component {
-
-  tempToken = 'c99c492b2bb6c81c977c505a7f3adfd98f92a5819b5a00c8ab18c453d4f9ae11f144c68a45f064077cfc49790fa13d583f3c03e9ae5732af2e19dc38d6ab23a3';
-  tempTeacherId = '5e580b4982a5090024e3e118';
 
   state = {
     timeSlotList: [],
@@ -36,7 +34,7 @@ class TeacherBookingList extends React.Component {
     try {
 
       await post('/bookings/teacher', {
-        token: this.tempToken,
+        token: Cookies.get('teacher-token'),
         bookings: [{
           room: this.tempForm.room,
           date: this.tempForm.date,
@@ -61,17 +59,15 @@ class TeacherBookingList extends React.Component {
   refreshTimeSlots = async () => {
 
     try {
+
+      let loginQuery = await post('/teachers/login', { email: 'nour.harriz@ocdsb.ca', password: 'password' });
+
+      Cookies.set('parent-token', loginQuery.token);
       
-      // TODO: Clean up after bookingsQuery accepts a teacher token.
-
-      let bookingsQuery = await get('/bookings', {});
-
-      let filteredTimeSlots = await new Promise(resolve => {
-        resolve(bookingsQuery.filter(booking => (booking['teacher-id'] === this.tempTeacherId)));
-      });
+      let bookingsQuery = await get('/bookings', { 'teacher-token': loginQuery.token });
 
       this.setState({
-        timeSlotList: filteredTimeSlots.map(timeSlot => (
+        timeSlotList: bookingsQuery.map(timeSlot => (
           <TimeSlot key={timeSlot._id} index={timeSlot._id}
             date={timeSlot.date}
             start-time={timeSlot.time.start}
