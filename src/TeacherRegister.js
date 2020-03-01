@@ -1,7 +1,9 @@
 
 import React from 'react';
 import { Form, Icon } from 'semantic-ui-react';
+import Cookies from 'js-cookie';
 import ViewContainer from './ViewContainer';
+import { post } from './utils/request';
 import queryString from 'query-string';
 import './css/ParentRegister.css';
 
@@ -9,23 +11,35 @@ class TeacherControlPanel extends React.Component {
 
   // Tracks data to be sent for the register request.
   data = {};
+  confirmPasswordField = null;
 
   onFormChange = (e, { name, value }) => {
 
     this.data[name] = value;
   }
 
-  nextScreen = () => {
+  nextScreen = async () => {
 
-    this.props.changeViewFunc('teacher / booking list');
+    if (this.data.password === this.confirmPasswordField) {
 
-    console.log(this.data);
+      try {
+        
+        let registerQuery = await post('/teachers/register', this.data);
+
+        Cookies.set('teacher-token', registerQuery.token);
+        this.props.changeViewFunc('teacher / booking list');
+        
+      } catch (json) { this.props.displayModalMessageFunc(json.error) }
+    }
+    else {
+      this.props.displayModalMessageFunc('Password and confirm password fields do not match.');
+    }
   }
 
   componentDidMount() {
 
     // Get code from URL.
-    this.data.code = queryString.parse(this.props.location.search).code;
+    this.data['security-key'] = queryString.parse(this.props.location.search).code;
   }
 
   render() {
@@ -37,12 +51,27 @@ class TeacherControlPanel extends React.Component {
 
         <Form>
           <Form.Group widths='equal'>
-            <Form.Input label="First name" placeholder='First name' name='first-name' onChange={this.onFormChange} />
-            <Form.Input label="Last name" placeholder='Last name' name='last-name' onChange={this.onFormChange} />
+            <Form.Input label="First name" placeholder='First name' name='first-name'
+              onChange={this.onFormChange}
+            />
+            <Form.Input label="Last name" placeholder='Last name' name='last-name'
+              onChange={this.onFormChange}
+            />
           </Form.Group>
-          <Form.Input label='Email' placeholder='Email' name='email' onChange={this.onFormChange} />
-          <Form.Input label='Password' placeholder='Password' name='password' type='password' onChange={this.onFormChange} />
-          <Form.Input label='Confirm password' placeholder='Password' name='confirm-password' type='password' />
+          <Form.Input label='Email' placeholder='Email' name='email'
+            onChange={this.onFormChange}
+          />
+          <Form.Input label='Password' placeholder='Password' name='password' type='password'
+            onChange={this.onFormChange}
+          />
+          <Form.Input label='Confirm password' placeholder='Password' name='confirm-password' type='password'
+            onChange={(e, { value }) => (this.confirmPasswordField = value)}
+          />
+          <div style={{textAlign: 'center'}}>
+            <button className='link-button' onClick={() => {this.props.changeViewFunc('teacher / login')}}>
+              Already have an account?
+            </button>
+          </div>
         </Form>
 
         <Form>
