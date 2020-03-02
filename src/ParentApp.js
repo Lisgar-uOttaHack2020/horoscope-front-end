@@ -10,6 +10,7 @@ class ParentApp extends React.Component {
   state = {
     view: 'parent / register',
     modalOpen: false,
+    loaderVisible: false,
     modalMessage: ''
   };
 
@@ -17,6 +18,19 @@ class ParentApp extends React.Component {
 
     this.setState({
       view: newView,
+    });
+  }
+
+  enableLoader = () => {
+
+    this.setState({
+      loaderVisible: true
+    });
+  }
+  disableLoader = () => {
+
+    this.setState({
+      loaderVisible: false
     });
   }
 
@@ -42,6 +56,9 @@ class ParentApp extends React.Component {
     if (this.state.view === 'parent / register') {
       viewWidget = <ParentRegister
         location={this.props.location}
+        loaderVisible={this.state.loaderVisible}
+        enableLoaderFunc={this.enableLoader}
+        disableLoaderFunc={this.disableLoader}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
       />;
@@ -50,6 +67,9 @@ class ParentApp extends React.Component {
     else if (this.state.view === 'parent / book child') {
       viewWidget = <ParentBookChild
         location={this.props.location}
+        loaderVisible={this.state.loaderVisible}
+        enableLoaderFunc={this.enableLoader}
+        disableLoaderFunc={this.disableLoader}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
       />;

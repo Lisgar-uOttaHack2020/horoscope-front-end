@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Segment, Header } from 'semantic-ui-react';
+import { Segment, Header, Dimmer, Loader } from 'semantic-ui-react';
 import './css/ViewContainer.css';
 
 class ViewContainer extends React.Component {
@@ -37,6 +37,9 @@ class ViewContainer extends React.Component {
           <Segment id='header-segment'>
             <Header as='h2'>{header}</Header>
           </Segment>
+          <Dimmer active={this.props.loaderVisible ? this.props.loaderVisible : false} inverted>
+            <Loader inverted>Loading</Loader>
+          </Dimmer>
           <Segment style={{height: this.state.bodyHeight, overflowY: 'auto'}}>{body}</Segment>
           <Segment id='footer-segment'>{footer}</Segment>
         </Segment.Group>
