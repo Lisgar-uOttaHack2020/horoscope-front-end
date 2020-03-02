@@ -10,7 +10,6 @@ import './css/ParentBookChild.css';
 class ParentBookChild extends React.Component {
 
   state = {
-    parentId: null,
     childList: [],
     childIndex: 0,
     appointmentSelectionList: []
@@ -57,21 +56,44 @@ class ParentBookChild extends React.Component {
     this.bookingsObj[index] = newVal;
   }
 
-  nextScreen = () => {
+  nextScreen = async () => {
 
-    // Generate data by converting bookingsObj from an object to an array.
-    this.data.bookings = [];
-    for (let key in this.bookingsObj) {
-      if (this.bookingsObj.hasOwnProperty(key)) {
-        this.data.bookings.push(this.bookingsObj[key]);
+    await new Promise(resolve => {
+
+      // Generate data by converting bookingsObj from an object to an array.
+
+      this.data.bookings = [];
+      for (let key in this.bookingsObj) {
+        if (this.bookingsObj.hasOwnProperty(key)) {
+          this.data.bookings.push(this.bookingsObj[key]);
+        }
       }
-    }
+      resolve();
+    });
 
-    // TODO: Finish parent process.
-    console.log(this.data); // Temporary.
+    try {
+      
+      await post('/bookings/parent', this.data);
+
+      if (this.state.childIndex + 1 < this.state.childList.length) {
+        this.nextChild();
+      }
+      else {
+        this.props.changeViewFunc('parent / end');
+      }
+    } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
 
-  async componentDidMount() {
+  nextChild = () => {
+
+    this.setState((state) => ({
+      childIndex: state.childIndex + 1
+    }),
+      () => this.refreshAppointments()
+    );
+  }
+
+  refreshAppointments = async () => {
 
     try {
       
@@ -79,11 +101,24 @@ class ParentBookChild extends React.Component {
       let teachersQuery = await get('/teachers', {});
       let bookingsQuery = await get('/bookings', {});
 
-      this.setState({ parentId: parentsQuery._id, childList: parentsQuery.children });
+      this.setState({
+        childList: parentsQuery.children,
+        appointmentSelectionList: []
+      });
+      this.data = {
+        'parent-token': Cookies.get('parent-token'),
+        'child-name': parentsQuery.children[this.state.childIndex]
+      };
+      this.bookingsObj = {};
       this.teachersData = teachersQuery;
       this.bookingsData = bookingsQuery;
       
     } catch (json) { this.props.displayModalMessageFunc(json.error) }
+  }
+
+  componentDidMount() {
+
+    this.refreshAppointments();
   }
 
   renderChildSelectionList = () => {
