@@ -11,6 +11,7 @@ class TeacherApp extends React.Component {
   state = {
     view: 'teacher / login',
     modalOpen: false,
+    loaderVisible: false,
     modalMessage: ''
   };
 
@@ -18,6 +19,19 @@ class TeacherApp extends React.Component {
 
     this.setState({
       view: newView,
+    });
+  }
+
+  enableLoader = () => {
+
+    this.setState({
+      loaderVisible: true
+    });
+  }
+  disableLoader = () => {
+
+    this.setState({
+      loaderVisible: false
     });
   }
 
@@ -43,6 +57,9 @@ class TeacherApp extends React.Component {
     if (this.state.view === 'teacher / register') {
       viewWidget = <TeacherRegister
         location={this.props.location}
+        loaderVisible={this.state.loaderVisible}
+        enableLoaderFunc={this.enableLoader}
+        disableLoaderFunc={this.disableLoader}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
       />;
@@ -51,6 +68,9 @@ class TeacherApp extends React.Component {
     if (this.state.view === 'teacher / login') {
       viewWidget = <TeacherLogin
         location={this.props.location}
+        loaderVisible={this.state.loaderVisible}
+        enableLoaderFunc={this.enableLoader}
+        disableLoaderFunc={this.disableLoader}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
       />;
@@ -59,6 +79,9 @@ class TeacherApp extends React.Component {
     else if (this.state.view === 'teacher / booking list') {
       viewWidget = <TeacherControlPanel
         location={this.props.location}
+        loaderVisible={this.state.loaderVisible}
+        enableLoaderFunc={this.enableLoader}
+        disableLoaderFunc={this.disableLoader}
         changeViewFunc={this.changeView}
         displayModalMessageFunc={this.displayMessage}
       />;

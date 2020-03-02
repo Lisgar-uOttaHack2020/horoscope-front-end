@@ -37,7 +37,7 @@ class ViewContainer extends React.Component {
           <Segment id='header-segment'>
             <Header as='h2'>{header}</Header>
           </Segment>
-          <Dimmer active inverted>
+          <Dimmer active={this.props.loaderVisible ? this.props.loaderVisible : false} inverted>
             <Loader inverted>Loading</Loader>
           </Dimmer>
           <Segment style={{height: this.state.bodyHeight, overflowY: 'auto'}}>{body}</Segment>

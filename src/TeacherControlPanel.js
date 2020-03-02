@@ -33,6 +33,9 @@ class TeacherBookingList extends React.Component {
 
     try {
 
+      this.props.enableLoaderFunc();
+      this.closeModal();
+
       await post('/bookings/teacher', {
         token: Cookies.get('teacher-token'),
         bookings: [{
@@ -46,7 +49,6 @@ class TeacherBookingList extends React.Component {
       });
 
       this.refreshTimeSlots();
-      this.closeModal();
     
     } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
@@ -59,6 +61,8 @@ class TeacherBookingList extends React.Component {
   refreshTimeSlots = async () => {
 
     try {
+
+      this.props.enableLoaderFunc();
 
       let bookingsQuery = await get('/bookings', { 'teacher-token': Cookies.get('teacher-token') });
 
@@ -73,6 +77,8 @@ class TeacherBookingList extends React.Component {
           />
         ))
       });
+
+      this.props.disableLoaderFunc();
       
     } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
@@ -123,7 +129,7 @@ class TeacherBookingList extends React.Component {
   render() {
 
     return (
-      <ViewContainer maxWidth='100vw'>
+      <ViewContainer maxWidth='100vw' loaderVisible={this.props.loaderVisible}>
 
         <div>Bookings</div>
 

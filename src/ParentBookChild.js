@@ -96,6 +96,8 @@ class ParentBookChild extends React.Component {
   refreshAppointments = async () => {
 
     try {
+
+      this.props.enableLoaderFunc();
       
       let parentsQuery  = await get('/parents',  { token: Cookies.get('parent-token') });
       let teachersQuery = await get('/teachers', {});
@@ -112,6 +114,8 @@ class ParentBookChild extends React.Component {
       this.bookingsObj = {};
       this.teachersData = teachersQuery;
       this.bookingsData = bookingsQuery;
+
+      this.props.disableLoaderFunc();
       
     } catch (json) { this.props.displayModalMessageFunc(json.error) }
   }
@@ -133,7 +137,7 @@ class ParentBookChild extends React.Component {
   render() {
 
     return (
-      <ViewContainer>
+      <ViewContainer loaderVisible={this.props.loaderVisible}>
 
         <div>Book appointments for: {this.state.childList[this.state.childIndex]}</div>
 
