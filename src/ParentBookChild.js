@@ -117,7 +117,13 @@ class ParentBookChild extends React.Component {
 
       this.props.disableLoaderFunc();
       
-    } catch (json) { this.props.displayModalMessageFunc(json.error) }
+    } catch (json) {
+      
+      this.props.displayModalMessageFunc(json.error);
+      this.props.disableLoaderFunc();
+
+      // TODO: proper handling.
+    }
   }
 
   componentDidMount() {
