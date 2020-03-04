@@ -95,9 +95,9 @@ class ParentBookChild extends React.Component {
 
   refreshAppointments = async () => {
 
-    try {
+    this.props.enableLoaderFunc();
 
-      this.props.enableLoaderFunc();
+    try {
       
       let parentsQuery  = await get('/parents',  { token: Cookies.get('parent-token') });
       let teachersQuery = await get('/teachers', {});

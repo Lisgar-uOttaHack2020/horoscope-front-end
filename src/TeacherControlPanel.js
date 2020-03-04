@@ -31,9 +31,9 @@ class TeacherBookingList extends React.Component {
 
   timeSlot_add = async () => {
 
-    try {
+    this.props.enableLoaderFunc();
 
-      this.props.enableLoaderFunc();
+    try {
 
       await post('/bookings/teacher', {
         token: Cookies.get('teacher-token'),
@@ -64,9 +64,9 @@ class TeacherBookingList extends React.Component {
 
   refreshTimeSlots = async () => {
 
-    try {
+    this.props.enableLoaderFunc();
 
-      this.props.enableLoaderFunc();
+    try {
 
       let bookingsQuery = await get('/bookings', { 'teacher-token': Cookies.get('teacher-token') });
 
@@ -84,7 +84,11 @@ class TeacherBookingList extends React.Component {
 
       this.props.disableLoaderFunc();
       
-    } catch (json) { this.props.displayModalMessageFunc(json.error) }
+    } catch (json) {
+      
+      this.props.displayModalMessageFunc(json.error);
+      this.props.disableLoaderFunc();
+    }
   }
 
   componentDidMount() {
