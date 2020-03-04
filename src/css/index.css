@@ -1,10 +1,22 @@
 body {
+
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   background-color: #202020;
   overflow: hidden;
+  height: 100%;
+}
+
+#bg-container {
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
 }
 
 footer {
@@ -18,7 +30,7 @@ footer {
 
 footer > .highlight {
 
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   padding: 8px 16px;
 }
