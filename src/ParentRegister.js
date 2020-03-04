@@ -56,6 +56,8 @@ class ParentRegister extends React.Component {
 
   nextScreen = async () => {
 
+    this.props.enableLoaderFunc();
+
     await new Promise(resolve => {
 
       // Generate data.children by converting childrenObj from an object to an array.
@@ -76,7 +78,11 @@ class ParentRegister extends React.Component {
       Cookies.set('parent-token', registerQuery.token);
       this.props.changeViewFunc('parent / book child');
       
-    } catch (json) { this.props.displayModalMessageFunc(json.error) }
+    } catch (json) {
+
+      this.props.displayModalMessageFunc(json.error);
+      this.props.disableLoaderFunc();
+    }
   }
 
   componentDidMount() {
@@ -97,7 +103,7 @@ class ParentRegister extends React.Component {
   render() {
 
     return (
-      <ViewContainer>
+      <ViewContainer loaderVisible={this.props.loaderVisible}>
 
         <div>Registration</div>
 

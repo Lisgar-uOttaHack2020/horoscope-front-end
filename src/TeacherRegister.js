@@ -20,6 +20,8 @@ class TeacherControlPanel extends React.Component {
 
   nextScreen = async () => {
 
+    this.props.enableLoaderFunc();
+
     if (this.data.password === this.confirmPasswordField) {
 
       try {
@@ -29,10 +31,15 @@ class TeacherControlPanel extends React.Component {
         Cookies.set('teacher-token', registerQuery.token);
         this.props.changeViewFunc('teacher / booking list');
         
-      } catch (json) { this.props.displayModalMessageFunc(json.error) }
+      } catch (json) {
+        
+        this.props.displayModalMessageFunc(json.error);
+        this.props.disableLoaderFunc();
+      }
     }
     else {
       this.props.displayModalMessageFunc('Password and confirm password fields do not match.');
+      this.props.disableLoaderFunc();
     }
   }
 
@@ -45,7 +52,7 @@ class TeacherControlPanel extends React.Component {
   render() {
 
     return (
-      <ViewContainer>
+      <ViewContainer loaderVisible={this.props.loaderVisible}>
 
         <div>Registration (teacher)</div>
 

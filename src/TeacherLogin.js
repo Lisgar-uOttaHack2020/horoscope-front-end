@@ -17,6 +17,8 @@ class TeacherLogin extends React.Component {
 
   nextScreen = async () => {
 
+    this.props.enableLoaderFunc();
+
     try {
       
       let loginQuery = await post('/teachers/login', this.data);
@@ -24,13 +26,17 @@ class TeacherLogin extends React.Component {
       Cookies.set('teacher-token', loginQuery.token);
       this.props.changeViewFunc('teacher / booking list');
       
-    } catch (json) { this.props.displayModalMessageFunc(json.error) }
+    } catch (json) {
+
+      this.props.displayModalMessageFunc(json.error);
+      this.props.disableLoaderFunc();
+    }
   }
 
   render() {
 
     return (
-      <ViewContainer>
+      <ViewContainer loaderVisible={this.props.loaderVisible}>
 
         <div>Teacher Login</div>
 
