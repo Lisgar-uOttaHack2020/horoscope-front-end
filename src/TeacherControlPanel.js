@@ -34,7 +34,6 @@ class TeacherBookingList extends React.Component {
     try {
 
       this.props.enableLoaderFunc();
-      this.closeModal();
 
       await post('/bookings/teacher', {
         token: Cookies.get('teacher-token'),
@@ -48,9 +47,14 @@ class TeacherBookingList extends React.Component {
         }]
       });
 
+      this.closeModal();
       this.refreshTimeSlots();
     
-    } catch (json) { this.props.displayModalMessageFunc(json.error) }
+    } catch (json) {
+
+      this.props.displayModalMessageFunc(json.error);
+      this.props.disableLoaderFunc();
+    }
   }
 
   timeSlot_delete = (index) => {
