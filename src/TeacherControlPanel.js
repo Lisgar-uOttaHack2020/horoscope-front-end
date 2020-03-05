@@ -9,7 +9,7 @@ import { displayTime, displayDate } from './utils/time';
 import { get, post } from './utils/request';
 import './css/TeacherControlPanel.css';
 
-class TeacherBookingList extends React.Component {
+class TeacherControlPanel extends React.Component {
 
   state = {
     timeSlotList: [],
@@ -298,4 +298,4 @@ class TimeSlot extends React.Component {
   }
 }
 
-export default TeacherBookingList;
+export default TeacherControlPanel;
