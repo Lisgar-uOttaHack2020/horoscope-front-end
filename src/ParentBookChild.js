@@ -108,7 +108,7 @@ class ParentBookChild extends React.Component {
         appointmentSelectionList: []
       });
       this.data = {
-        'parent-token': Cookies.get('parent-token'),
+        'token': Cookies.get('parent-token'),
         'child-name': parentsQuery.children[this.state.childIndex]
       };
       this.bookingsObj = {};
