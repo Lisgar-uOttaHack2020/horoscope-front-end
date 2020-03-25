@@ -77,6 +77,7 @@ class TeacherControlPanel extends React.Component {
             start-time={timeSlot.time.start}
             end-time={timeSlot.time.end}
             room={timeSlot.room}
+            student={timeSlot['child-name']}
             deleteFunc={this.timeSlot_delete}
           />
         ))
